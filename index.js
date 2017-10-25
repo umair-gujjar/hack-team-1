@@ -36,16 +36,6 @@ let handleYesNo = (session, results) => {
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
-bot.dialog('GetPaymentDueDate', [(session, results, next) => {
-    session.send("Pay by 25 Dec 2017");
-    next();
-},
-    askAnythingElse,
-    handleYesNo
-]).triggerAction({
-    matches: 'GetPaymentDueDate'
-});
-
 bot.dialog('GetAccountSummary', [(session, results, next) => {
     session.send('Your account is ABC');
     next();
@@ -56,33 +46,13 @@ bot.dialog('GetAccountSummary', [(session, results, next) => {
     matches: 'GetAccountSummary'
 });
 
-bot.dialog('GetAccountBalance', [(session, results, next) => {
-    session.send("You are in debt of £50");
-    next();
-},
-    askAnythingElse,
-    handleYesNo
-]).triggerAction({
-    matches: 'GetAccountBalance'
-});
-
-bot.dialog('GetPackageName', [(session, results, next) => {
-    session.send("Your package is Fast");
-    next();
-},
-    askAnythingElse,
-    handleYesNo
-]).triggerAction({
-    matches: 'GetPackageName'
-});
-
 bot.dialog('Help', function (session) {
-    session.send('You can ask help for: payment, account summary, package name or account balance');
+    session.send('You can ask help for: setting up your router');
 }).triggerAction({
     matches: 'Help'
 });
 
-const greetings = 'Hello, welcome to chatbot';
+const greetings = 'Hi, I\'m Jay your virtual assistant, how can I help?';
 
 bot.on('conversationUpdate', function (activity) {
     // when user joins conversation, send instructions
