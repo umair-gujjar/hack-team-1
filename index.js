@@ -36,19 +36,13 @@ let handleYesNo = (session, results) => {
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
-bot.dialog('GetAccountSummary', [(session, results, next) => {
-    session.send('Your account is ABC');
+bot.dialog('Help', [(session, results, next) => {
+    session.send('You can ask help for: setting up your router');
     next();
 },
     askAnythingElse,
     handleYesNo]
 ).triggerAction({
-    matches: 'GetAccountSummary'
-});
-
-bot.dialog('Help', function (session) {
-    session.send('You can ask help for: setting up your router');
-}).triggerAction({
     matches: 'Help'
 });
 
