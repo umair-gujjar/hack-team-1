@@ -54,45 +54,33 @@ function computerSetup(builder, bot) {
             session.send('Okay then lets begin the walkthrough!');
 
             let text =
-                '1. Click the Wi-Fi icon in the top-right of your screen.\n' +
-                '2. Select Turn Wi-Fi On.\n' +
-                '3. Your Mac will automatically scan for available wireless networks.\n';
+                'Click the Wi-Fi icon in the top-right of your screen.\n' +
+                'Select Turn Wi-Fi On.\n' +
+                'Your Mac will automatically scan for available wireless networks.\n';
 
-            if(channelType =='facebook'){
-                msg = {
-                    attachment: {
-                        "type":"template",
-                        "payload":{
-                            "template_type":"generic",
-                            "elements":[
-                                {
-                                    "title":"Welcome to Peter\'s Hats",
-                                    "image_url":"https://petersfancybrownhats.com/company_image.png",
-                                    "subtitle":"We\'ve got the right hat for everyone.",
-                                    "default_action": {
-                                        "type": "web_url",
-                                        "url": "https://peterssendreceiveapp.ngrok.io/view?item=103",
-                                        "messenger_extensions": true,
-                                        "webview_height_ratio": "tall",
-                                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
-                                    },
-                                    "buttons":[
-                                        {
-                                            "type":"web_url",
-                                            "url":"https://petersfancybrownhats.com",
-                                            "title":"View Website"
-                                        },{
-                                            "type":"postback",
-                                            "title":"Start Chatting",
-                                            "payload":"DEVELOPER_DEFINED_PAYLOAD"
-                                        }
-                                    ]
-                                }
-                            ]
+            if(channelType =='facebook') {
+                msg = new builder.Message(session);
+                msg.sourceEvent({
+                    facebook: {
+                        attachment:{
+                            type:"template",
+                            payload:{
+                                template_type:"generic",
+                                elements:[{
+                                    title:"title",
+                                    subtitle:"context",
+                                    image_url:"http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png",
+                                    item_url: "http://m.me",
+                                    buttons:[{
+                                        type:"element_share"
+                                    }]
+                                }]
+                            }
                         }
                     }
-                };
-                //msg = 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
+                });
+
+                //msg = text + '\n' + 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
             } else {
                 let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png');
                 // attach the card to the reply message
@@ -106,16 +94,45 @@ function computerSetup(builder, bot) {
             let msg;
 
             let text =
-                '4. Select your wireless network name from the list.';
+                'Select your wireless network name from the list.';
 
             if(channelType =='facebook'){
-                msg = 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
+                msg = text + '\n' + 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
             } else {
                 let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'https://m0.ttxm.co.uk/gfx/help/turn_wifi_on_mac_2.png');
                 // attach the card to the reply message
                 msg = new builder.Message(session).addAttachment(card);
             }
             session.send(msg);
+            nextSteps(session);
+        },
+        function (session) {
+            let channelType = session.message.source;
+            let msg;
+
+            let text =
+                `Enter your password and click Join.
+                Remember: If you don’t know your wireless network name or password you can find them on your password card, or on the sticker on the back of your router.`;
+
+            if(channelType =='facebook'){
+                msg = text + '\n' + 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
+            } else {
+                let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'https://m1.ttxm.co.uk/gfx/help/turn_wifi_on_mac_3.png');
+                // attach the card to the reply message
+                msg = new builder.Message(session).addAttachment(card);
+            }
+            session.send(msg);
+            nextSteps(session);
+        },
+        function (session) {
+            let channelType = session.message.source;
+            let msg;
+
+            let text =
+                `You should now be ready to go online on your Mac computer.
+                If you are still unable to connect or you have encountered any other problems, head over to the Apple Mac support site for more detailed help and troubleshooting.`;
+
+            session.endDialog(text);
         },
     ]);
 }
