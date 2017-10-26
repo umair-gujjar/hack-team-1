@@ -37,7 +37,7 @@ function createVideoCard(session) {
         .subtitle('Setting up your Super Router')
         .image(builder.CardImage.create(session, 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/220px-Big_buck_bunny_poster_big.jpg'))
         .media([
-            { url: 'https://www.youtube.com/watch?v=5S8O_S_k5ek&feature=youtu.be' }
+            { url: 'http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4' }
         ]);
 }
 
