@@ -24,8 +24,8 @@ var bot = new builder.UniversalBot(connector, function (session) {
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
-require('./guides/wifiSetup.es6')(builder, bot);
 require('./guides/routerSetup.es6')(builder, bot);
+require('./guides/wifiSetup/wifiSetup.es6')(builder, bot);
 
 
 const greetings = 'Hi, I\'m Jay your virtual assistant, how can I help?';
