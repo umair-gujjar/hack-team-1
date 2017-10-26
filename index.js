@@ -19,63 +19,14 @@ var bot = new builder.UniversalBot(connector, function (session) {
     session.send('Sorry, I did not understand \'%s\'. Type \'help\' if you need assistance.', session.message.text);
 });
 
-function createVideoCard(session) {
-    return new builder.VideoCard(session)
-        .title('Video guide')
-        .subtitle('Setting up your Super Router')
-        .media([
-            { url: 'https://www.youtube.com/watch?v=5S8O_S_k5ek&t=15s' }
-        ]);
-}
-
 // You can provide your own model by specifing the 'LUIS_MODEL_URL' environment variable
 // This Url can be obtained by uploading or creating your model from the LUIS portal: https://www.luis.ai/
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
-bot.dialog('RouterSetup', [
-    function (session) {
-        builder.Prompts.choice(session, 'Would you prefer a video or walkthrough?', ['Walkthrough', 'Video']);
-    },
-    function (session, results) {
-        session.userData.setupChoice = results.response.entity;
-        if(session.userData.setupChoice == 'Video'){
-            session.beginDialog('Video');
-        } else {
-            session.beginDialog('Walkthrough')
-        }
-    }]
-).triggerAction({
-    matches: 'RouterSetup'
-});
+require('./guides/wifiSetup.es6')(builder, bot);
+require('./guides/routerSetup.es6')(builder, bot);
 
-bot.dialog('Video', [(session, results, next) => {
-    session.send('Okay, here you go:');
-    next();
-},
-    (session) => {
-        let channelType = session.message.source;
-        let msg;
-        if(channelType =='facebook'){
-            msg = 'https://www.youtube.com/watch?v=5S8O_S_k5ek&t=15s';
-        } else {
-            let card = createVideoCard(session);
-            // attach the card to the reply message
-            msg = new builder.Message(session).addAttachment(card);
-        }
-        session.endDialog(msg);
-    }]
-);
-
-bot.dialog('Walkthrough', function (session) {
-    session.send('Okay then lets begin the walkthrough.');
-});
-
-bot.dialog('Help', function (session) {
-    session.endDialog('You can ask help for: setting up your router');
-}).triggerAction({
-    matches: 'Help'
-});
 
 const greetings = 'Hi, I\'m Jay your virtual assistant, how can I help?';
 
