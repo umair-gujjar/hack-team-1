@@ -31,46 +31,38 @@ let handleYesNo = (session, results) => {
     }
 }
 
-let handleYesNo = (session, results) => {
-    if (results.response) {
-        session.endDialog('How can I help you?');
-    } else {
-        session.endDialog('Good Bye');
-    }
-}
-
 // You can provide your own model by specifing the 'LUIS_MODEL_URL' environment variable
 // This Url can be obtained by uploading or creating your model from the LUIS portal: https://www.luis.ai/
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
-// bot.dialog('Help', [(session, results, next) => {
-//     session.send('You can ask help for: setting up your router');
-//     next();
-// },
-//     askAnythingElse,
-//     handleYesNo]
-// ).triggerAction({
-//     matches: 'Help'
-// });
+bot.dialog('Help', [(session, results, next) => {
+    session.send('You can ask help for: setting up your router');
+    next();
+},
+    askAnythingElse,
+    handleYesNo]
+).triggerAction({
+    matches: 'Help'
+});
 
-// bot.dialog('RouterSetup', (session, results, next) => {
-//     session.endDialog('Yes of course, would you like me to guide you through it or would you prefer a video?');
-// }).triggerAction({
-//     matches: 'RouterSetup'
-// });
+bot.dialog('RouterSetup', (session, results, next) => {
+    session.endDialog('Yes of course, would you like me to guide you through it or would you prefer a video?');
+}).triggerAction({
+    matches: 'RouterSetup'
+});
 
-// bot.dialog('Video', function (session) {
-//     session.endDialog('Okay here is the video');
-// }).triggerAction({
-//     matches: 'Video'
-// });
+bot.dialog('Video', function (session) {
+    session.endDialog('Okay here is the video');
+}).triggerAction({
+    matches: 'Video'
+});
 
-// bot.dialog('Walkthrough', function (session) {
-//     session.endDialog('Okay then lets begin the walkthrough.');
-// }).triggerAction({
-//     matches: 'WalkThrough'
-// });
+bot.dialog('Walkthrough', function (session) {
+    session.endDialog('Okay then lets begin the walkthrough.');
+}).triggerAction({
+    matches: 'WalkThrough'
+});
 
 bot.dialog('Help', function (session) {
     session.endDialog('You can ask help for: setting up your router');
