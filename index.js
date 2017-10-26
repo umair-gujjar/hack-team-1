@@ -31,6 +31,15 @@ let handleYesNo = (session, results) => {
     }
 }
 
+function createVideoCard(session) {
+    return new builder.VideoCard(session)
+        .title('Video guide')
+        .subtitle('Setting up your Super Router')
+        .media([
+            { url: 'https://www.youtube.com/watch?v=5S8O_S_k5ek&feature=youtu.be' }
+        ]);
+}
+
 // You can provide your own model by specifing the 'LUIS_MODEL_URL' environment variable
 // This Url can be obtained by uploading or creating your model from the LUIS portal: https://www.luis.ai/
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
@@ -52,9 +61,18 @@ bot.dialog('RouterSetup', (session, results, next) => {
     matches: 'RouterSetup'
 });
 
-bot.dialog('Video', function (session) {
-    session.endDialog('Okay here is the video');
-}).triggerAction({
+bot.dialog('Video', [(session, results, next) => {
+    session.send('Okay, here you go:');
+    next();
+},
+    (session) => {
+        let card = createVideoCard(session);
+        
+        // attach the card to the reply message
+        let msg = new builder.Message(session).addAttachment(card);
+        session.send(msg);
+    }]
+).triggerAction({
     matches: 'Video'
 });
 
