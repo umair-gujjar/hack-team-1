@@ -8,16 +8,16 @@ function routerSetup (builder, bot) {
         function (session, results) {
             session.userData.setupChoice = results.response.entity;
             if(session.userData.setupChoice == 'Video'){
-                session.beginDialog('Video');
+                session.beginDialog('RouterVideo');
             } else {
-                session.beginDialog('Walkthrough')
+                session.beginDialog('RouterWalkthrough')
             }
         }]
     ).triggerAction({
         matches: 'RouterSetup'
     });
 
-    bot.dialog('Video', [(session, results, next) => {
+    bot.dialog('RouterVideo', [(session, results, next) => {
             session.send('Okay, here you go:');
             next();
         },
@@ -36,7 +36,7 @@ function routerSetup (builder, bot) {
         }]
     );
 
-    bot.dialog('Walkthrough', [(session) => {
+    bot.dialog('RouterWalkthrough', [(session) => {
             session.send('Okay then lets begin to walk you through setting up your internet.');
             builder.Prompts.choice(session, 'Which router do you have?', [
                 'D-Link 3782 Super Router',
@@ -45,19 +45,29 @@ function routerSetup (builder, bot) {
             ]);
         },
         (session, results) => {
-            console.log(results.response.entity, 'hello');
-            switch(results.response.entity){
-                case '1':
-                console.log('first one');
-                    break;
-                case '2':
-                console.log('second one');
-                    break;
-                case '3':
-                console.log('third one');
-                    break;
-            }
-        }]);
+            session.beginDialog(results.response.entity);
+        }]
+    );
+
+    bot.dialog('D-Link 3782 Super Router', [(session)=>{
+        let channelType = session.message.source;
+        let msg;
+        if(channelType =='facebook'){
+            msg = 'Do you have all these parts? https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png';
+        } else {
+            let card = helpers.createImageCard(session, 'Router Components', 'Do you have all these parts?', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png', ['Yes', 'No']);
+            msg = new builder.Message(session).addAttachment(card);
+        }
+        session.send(msg);
+    }]);
+
+    bot.dialog('HG633 Super Router', [(session)=>{
+
+    }]);
+
+    bot.dialog('Non-TalkTalk Router', [(session)=>{
+
+    }]);
 
     bot.dialog('EndRouterSetup', (session) => {
        session.endDialog('Is there anything else I can help you with?'); 

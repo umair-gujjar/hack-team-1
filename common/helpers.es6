@@ -8,7 +8,7 @@ function Helpers(builder) {
             ]);
     }
 
-    this.createImageCard = function (session, title, subtitle, text, url) {
+    this.createImageCard = function (session, title, subtitle, text, url, buttons) {
         return new builder.HeroCard(session)
             .title(title)
             .subtitle(subtitle)
@@ -16,6 +16,13 @@ function Helpers(builder) {
             .images([
                 builder.CardImage.create(session, url)
             ])
+            .buttons(this.buttonsCreator(session, buttons))
+    }
+
+    this.buttonsCreator = function (session, buttons) {
+        return buttons.map((button) => {
+            return builder.CardAction.dialogAction(session, button)
+        } );
     }
 }
 
