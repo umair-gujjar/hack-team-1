@@ -54,10 +54,9 @@ bot.recognizer(recognizer);
 //     matches: 'Help'
 // });
 
-bot.dialog('RouterSetup', [(session, results, next) => {
+bot.dialog('RouterSetup', (session, results, next) => {
     session.endDialog('Yes of course, would you like me to guide you through it or would you prefer a video?');
-}]
-).triggerAction({
+}).triggerAction({
     matches: 'RouterSetup'
 });
 
