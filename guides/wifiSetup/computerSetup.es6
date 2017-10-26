@@ -42,7 +42,25 @@ function computerSetup(builder, bot) {
         }
     ]);
 
-    bot.dialog()
+    bot.dialog('AppleWalktrough', [
+        function (session) {
+            session.send('Okay then lets begin the walkthrough!');
+            let firstPart =
+                '1. Click the Wi-Fi icon in the top-right of your screen.\n' +
+                '2. Select Turn Wi-Fi On.\n' +
+                '3. Your Mac will automatically scan for available wireless networks.\n';
+            let channelType = session.message.source;
+            let msg;
+            if(channelType =='facebook'){
+                msg = 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
+            } else {
+                let card = helpers.createImageCard(session, 'Wifi guide', '', firstPart, 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png');
+                // attach the card to the reply message
+                msg = new builder.Message(session).addAttachment(card);
+            }
+            session.send(msg);
+        }
+    ]);
 }
 
 module.exports = computerSetup;

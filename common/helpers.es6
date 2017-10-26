@@ -7,6 +7,16 @@ function Helpers(builder) {
                 { url: url }
             ]);
     }
+
+    this.createImageCard = function (session, title, subtitle, text, url) {
+        return new builder.HeroCard(session)
+            .title(title)
+            .subtitle(subtitle)
+            .text(text)
+            .images([
+                builder.CardImage.create(session, url)
+            ])
+    }
 }
 
 module.exports = Helpers;
