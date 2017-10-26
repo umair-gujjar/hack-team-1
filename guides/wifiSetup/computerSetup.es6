@@ -35,7 +35,7 @@ function computerSetup(builder, bot) {
                 if(channelType =='facebook'){
                     msg = 'https://youtu.be/AxfGXk0SqCA';
                 } else {
-                    let card = helpers.createVideoCard(session, 'Mac wifi setup', '', 'https://youtu.be/AxfGXk0SqCA');
+                    let card = helpers.createVideoCard(session, 'Mac wifi setup', '', 'https://youtu.be/AxfGXk0SqCA', []);
                     // attach the card to the reply message
                     msg = new builder.Message(session).addAttachment(card);
                 }
@@ -58,35 +58,16 @@ function computerSetup(builder, bot) {
                 'Select Turn Wi-Fi On.\n' +
                 'Your Mac will automatically scan for available wireless networks.\n';
 
-            if(channelType =='facebook') {
-                msg = new builder.Message(session);
-                msg.sourceEvent({
-                    facebook: {
-                        attachment:{
-                            type:"template",
-                            payload:{
-                                template_type:"generic",
-                                elements:[{
-                                    title:"title",
-                                    subtitle:"context",
-                                    image_url:"http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png",
-                                    item_url: "http://m.me",
-                                    buttons:[{
-                                        type:"element_share"
-                                    }]
-                                }]
-                            }
-                        }
-                    }
-                });
-
-                //msg = text + '\n' + 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
-            } else {
-                let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png');
-                // attach the card to the reply message
-                msg = new builder.Message(session).addAttachment(card);
-            }
-            session.send(msg);
+            session.send(
+                helpers.createImageCard(
+                    session,
+                    'Wifi guide',
+                    '',
+                    text,
+                    'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png',
+                    []
+                )
+            );
             nextSteps(session);
         },
         function (session) {
@@ -96,14 +77,7 @@ function computerSetup(builder, bot) {
             let text =
                 'Select your wireless network name from the list.';
 
-            if(channelType =='facebook'){
-                msg = text + '\n' + 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
-            } else {
-                let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'https://m0.ttxm.co.uk/gfx/help/turn_wifi_on_mac_2.png');
-                // attach the card to the reply message
-                msg = new builder.Message(session).addAttachment(card);
-            }
-            session.send(msg);
+            session.send(helpers.createImageCard(session, 'Wifi guide', '', text, 'https://m0.ttxm.co.uk/gfx/help/turn_wifi_on_mac_2.png', []));
             nextSteps(session);
         },
         function (session) {
@@ -114,14 +88,7 @@ function computerSetup(builder, bot) {
                 `Enter your password and click Join.
                 Remember: If you don’t know your wireless network name or password you can find them on your password card, or on the sticker on the back of your router.`;
 
-            if(channelType =='facebook'){
-                msg = text + '\n' + 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
-            } else {
-                let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'https://m1.ttxm.co.uk/gfx/help/turn_wifi_on_mac_3.png');
-                // attach the card to the reply message
-                msg = new builder.Message(session).addAttachment(card);
-            }
-            session.send(msg);
+            session.send(helpers.createImageCard(session, 'Wifi guide', '', text, 'https://m1.ttxm.co.uk/gfx/help/turn_wifi_on_mac_3.png', []));
             nextSteps(session);
         },
         function (session) {
