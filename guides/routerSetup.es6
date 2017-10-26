@@ -1,6 +1,6 @@
-let helpers = require('../common/helpers.es6');
-
 function routerSetup (builder, bot) {
+    let helpersConstructor = require('../common/helpers.es6');
+    let helpers = new helpersConstructor(builder);
     bot.dialog('RouterSetup', [
         function (session) {
             builder.Prompts.choice(session, 'Would you prefer a video or walkthrough?', ['Walkthrough', 'Video']);
@@ -37,12 +37,6 @@ function routerSetup (builder, bot) {
 
     bot.dialog('Walkthrough', function (session) {
         session.send('Okay then lets begin the walkthrough.');
-    });
-
-    bot.dialog('Help', function (session) {
-        session.endDialog('You can ask help for: setting up your router');
-    }).triggerAction({
-        matches: 'Help'
     });
 }
 

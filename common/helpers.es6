@@ -1,4 +1,4 @@
-function Helpers() {
+function Helpers(builder) {
     this.createVideoCard = function (session) {
         return new builder.VideoCard(session)
             .title('Video guide')
@@ -9,4 +9,4 @@ function Helpers() {
     }
 }
 
-module.exports = new Helpers();
+module.exports = Helpers;

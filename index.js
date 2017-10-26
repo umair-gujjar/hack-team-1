@@ -24,6 +24,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
+require('./guides/help.es6')(builder, bot);
 require('./guides/wifiSetup.es6')(builder, bot);
 require('./guides/routerSetup.es6')(builder, bot);
 
