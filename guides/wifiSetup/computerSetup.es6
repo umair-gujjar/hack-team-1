@@ -2,6 +2,10 @@ function computerSetup(builder, bot) {
     let HelpersConstructor = require('../../common/helpers.es6');
     let helpers = new HelpersConstructor(builder);
 
+    function nextSteps(session) {
+        builder.Prompts.text(session, 'Ready to continue?');
+    }
+
     bot.dialog('Computer', [
         function (session) {
             builder.Prompts.choice(session, 'What kind of device you want to set up?', [
@@ -44,22 +48,92 @@ function computerSetup(builder, bot) {
 
     bot.dialog('AppleWalktrough', [
         function (session) {
-            session.send('Okay then lets begin the walkthrough!');
-            let firstPart =
-                '1. Click the Wi-Fi icon in the top-right of your screen.\n' +
-                '2. Select Turn Wi-Fi On.\n' +
-                '3. Your Mac will automatically scan for available wireless networks.\n';
             let channelType = session.message.source;
             let msg;
-            if(channelType =='facebook'){
-                msg = 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
+
+            session.send('Okay then lets begin the walkthrough!');
+
+            let text =
+                'Click the Wi-Fi icon in the top-right of your screen.\n' +
+                'Select Turn Wi-Fi On.\n' +
+                'Your Mac will automatically scan for available wireless networks.\n';
+
+            if(channelType =='facebook') {
+                msg = new builder.Message(session);
+                msg.sourceEvent({
+                    facebook: {
+                        attachment:{
+                            type:"template",
+                            payload:{
+                                template_type:"generic",
+                                elements:[{
+                                    title:"title",
+                                    subtitle:"context",
+                                    image_url:"http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png",
+                                    item_url: "http://m.me",
+                                    buttons:[{
+                                        type:"element_share"
+                                    }]
+                                }]
+                            }
+                        }
+                    }
+                });
+
+                //msg = text + '\n' + 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
             } else {
-                let card = helpers.createImageCard(session, 'Wifi guide', '', firstPart, 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png');
+                let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png');
                 // attach the card to the reply message
                 msg = new builder.Message(session).addAttachment(card);
             }
             session.send(msg);
-        }
+            nextSteps(session);
+        },
+        function (session) {
+            let channelType = session.message.source;
+            let msg;
+
+            let text =
+                'Select your wireless network name from the list.';
+
+            if(channelType =='facebook'){
+                msg = text + '\n' + 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
+            } else {
+                let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'https://m0.ttxm.co.uk/gfx/help/turn_wifi_on_mac_2.png');
+                // attach the card to the reply message
+                msg = new builder.Message(session).addAttachment(card);
+            }
+            session.send(msg);
+            nextSteps(session);
+        },
+        function (session) {
+            let channelType = session.message.source;
+            let msg;
+
+            let text =
+                `Enter your password and click Join.
+                Remember: If you don’t know your wireless network name or password you can find them on your password card, or on the sticker on the back of your router.`;
+
+            if(channelType =='facebook'){
+                msg = text + '\n' + 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
+            } else {
+                let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'https://m1.ttxm.co.uk/gfx/help/turn_wifi_on_mac_3.png');
+                // attach the card to the reply message
+                msg = new builder.Message(session).addAttachment(card);
+            }
+            session.send(msg);
+            nextSteps(session);
+        },
+        function (session) {
+            let channelType = session.message.source;
+            let msg;
+
+            let text =
+                `You should now be ready to go online on your Mac computer.
+                If you are still unable to connect or you have encountered any other problems, head over to the Apple Mac support site for more detailed help and troubleshooting.`;
+
+            session.endDialog(text);
+        },
     ]);
 }
 
