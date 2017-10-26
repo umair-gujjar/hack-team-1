@@ -35,9 +35,8 @@ function createVideoCard(session) {
     return new builder.VideoCard(session)
         .title('Video guide')
         .subtitle('Setting up your Super Router')
-        .image(builder.CardImage.create(session, 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/220px-Big_buck_bunny_poster_big.jpg'))
         .media([
-            { url: 'http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4' }
+            { url: 'https://www.youtube.com/watch?v=5S8O_S_k5ek&t=15s' }
         ]);
 }
 
@@ -63,7 +62,9 @@ bot.dialog('RouterSetup', (session, results, next) => {
 });
 
 bot.dialog('Video', [(session, results, next) => {
-    session.send('Okay, here you go:');
+    let channel1 = session.message.address.channelId;
+    let channel2 = session.message.source;
+    session.send('Okay, here you go:' + channel1 + ' ' + channel2);
     next();
 },
     (session) => {
