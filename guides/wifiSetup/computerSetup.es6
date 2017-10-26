@@ -30,15 +30,11 @@ function computerSetup(builder, bot) {
         function (session, results) {
             if (results.response.entity == 'Video'){
                 session.send('Okay, here you go:');
-                let channelType = session.message.source;
-                let msg;
-                if(channelType =='facebook'){
-                    msg = 'https://youtu.be/AxfGXk0SqCA';
-                } else {
-                    let card = helpers.createVideoCard(session, 'Mac wifi setup', '', 'https://youtu.be/AxfGXk0SqCA', []);
-                    // attach the card to the reply message
-                    msg = new builder.Message(session).addAttachment(card);
-                }
+                let msg = helpers.createVideoCard(
+                    session, 
+                    'Mac wifi setup', 
+                    '', 
+                    'https://youtu.be/AxfGXk0SqCA');
                 session.endDialog(msg);
             } else {
                 session.beginDialog('AppleWalktrough');

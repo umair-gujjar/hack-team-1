@@ -2,12 +2,6 @@ function Helpers(builder) {
     this.createVideoCard = function (session, title, subtitle, url) {
         let channelType = session.message.source;
         let msg = new builder.Message(session);
-        let attachment = new builder.VideoCard(session)
-            .title(title)
-            .subtitle(subtitle)
-            .media([
-                { url: url }
-            ]);
 
         if (channelType =='facebook') {
             msg.sourceEvent({
@@ -26,6 +20,13 @@ function Helpers(builder) {
                 }
             });
         } else {
+            let attachment = new builder.VideoCard(session)
+                .title(title)
+                .subtitle(subtitle)
+                .media([
+                    { url: url }
+                ]
+            );
             msg.addAttachment(attachment);
         }
 
