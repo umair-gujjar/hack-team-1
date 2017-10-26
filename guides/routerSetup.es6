@@ -18,9 +18,9 @@ function routerSetup (builder, bot) {
     });
 
     bot.dialog('Video', [(session, results, next) => {
-        session.send('Okay, here you go:');
-        next();
-    },
+            session.send('Okay, here you go:');
+            next();
+        },
         (session) => {
             let channelType = session.message.source;
             let msg;
@@ -31,12 +31,36 @@ function routerSetup (builder, bot) {
                 // attach the card to the reply message
                 msg = new builder.Message(session).addAttachment(card);
             }
-            session.endDialog(msg);
+            session.send(msg);
+            session.beginDialog('EndRouterSetup')
         }]
     );
 
-    bot.dialog('Walkthrough', function (session) {
-        session.send('Okay then lets begin the walkthrough.');
+    bot.dialog('Walkthrough', [(session) => {
+            session.send('Okay then lets begin to walk you through setting up your internet.');
+            builder.Prompts.choice(session, 'Which router do you have?', [
+                'D-Link 3782 Super Router',
+                'HG633 Super Router',
+                'Non-TalkTalk Router'
+            ]);
+        },
+        (session, results) => {
+            console.log(results.response.entity, 'hello');
+            switch(results.response.entity){
+                case '1':
+                console.log('first one');
+                    break;
+                case '2':
+                console.log('second one');
+                    break;
+                case '3':
+                console.log('third one');
+                    break;
+            }
+        }]);
+
+    bot.dialog('EndRouterSetup', (session) => {
+       session.endDialog('Is there anything else I can help you with?'); 
     });
 }
 
