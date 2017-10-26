@@ -49,13 +49,14 @@ function Helpers(builder) {
                 facebook: {
                     attachment:{
                         type:"template",
-                        payload:{
+                        payload: {
                             template_type:"generic",
+                            //text: text,
                             elements:[{
                                 title: title,
                                 subtitle: subtitle,
                                 image_url: url,
-                                buttons: this.facebookButtonsCreator(buttons)
+                                //buttons: this.facebookButtonsCreator(buttons)
                             }]
                         }
                     }
@@ -74,7 +75,7 @@ function Helpers(builder) {
         } );
     };
 
-    this.facebookButtonsCreator = function (session, buttons) {
+    this.facebookButtonsCreator = function (buttons) {
         return buttons.map((button) => {
             return {
                 "type": "postback",

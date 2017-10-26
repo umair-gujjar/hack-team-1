@@ -63,11 +63,13 @@ function computerSetup(builder, bot) {
                     session,
                     'Wifi guide',
                     '',
-                    text,
+                    '',
                     'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png',
                     []
                 )
             );
+
+            session.send(text);
             nextSteps(session);
         },
         function (session) {

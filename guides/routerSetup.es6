@@ -22,16 +22,7 @@ function routerSetup (builder, bot) {
             next();
         },
         (session) => {
-            let channelType = session.message.source;
-            let msg;
-            if(channelType =='facebook'){
-                msg = 'https://www.youtube.com/watch?v=5S8O_S_k5ek&t=15s';
-            } else {
-                let card = helpers.createVideoCard(session, 'Video guide', 'Setting up your Super Router', 'https://www.youtube.com/watch?v=5S8O_S_k5ek&t=15s');
-                // attach the card to the reply message
-                msg = new builder.Message(session).addAttachment(card);
-            }
-            session.send(msg);
+            session.send(helpers.createVideoCard(session, 'Video guide', 'Setting up your Super Router', 'https://www.youtube.com/watch?v=5S8O_S_k5ek&t=15s'));
             session.beginDialog('EndRouterSetup')
         }]
     );
@@ -50,15 +41,7 @@ function routerSetup (builder, bot) {
     );
 
     bot.dialog('D-Link 3782 Super Router', [(session)=>{
-        let channelType = session.message.source;
-        let msg;
-        if(channelType =='facebook'){
-            msg = 'Do you have all these parts? https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png';
-        } else {
-            let card = helpers.createImageCard(session, 'Router Components', 'Do you have all these parts?', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png', ['Yes', 'No']);
-            msg = new builder.Message(session).addAttachment(card);
-        }
-        session.send(msg);
+        session.send(helpers.createImageCard(session, 'Router Components', 'Do you have all these parts?', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png', ['Yes', 'No']));
     }]);
 
     bot.dialog('HG633 Super Router', [(session)=>{
