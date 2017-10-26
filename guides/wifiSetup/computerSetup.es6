@@ -2,6 +2,10 @@ function computerSetup(builder, bot) {
     let HelpersConstructor = require('../../common/helpers.es6');
     let helpers = new HelpersConstructor(builder);
 
+    function nextSteps(session) {
+        builder.Prompts.text(session, 'Ready to continue?');
+    }
+
     bot.dialog('Computer', [
         function (session) {
             builder.Prompts.choice(session, 'What kind of device you want to set up?', [
@@ -44,22 +48,75 @@ function computerSetup(builder, bot) {
 
     bot.dialog('AppleWalktrough', [
         function (session) {
+            let channelType = session.message.source;
+            let msg;
+
             session.send('Okay then lets begin the walkthrough!');
-            let firstPart =
+
+            let text =
                 '1. Click the Wi-Fi icon in the top-right of your screen.\n' +
                 '2. Select Turn Wi-Fi On.\n' +
                 '3. Your Mac will automatically scan for available wireless networks.\n';
-            let channelType = session.message.source;
-            let msg;
+
             if(channelType =='facebook'){
-                msg = 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
+                msg = `{
+                    "attachment":{
+                        "type":"template",
+                            "payload":{
+                            "template_type":"generic",
+                                "elements":[
+                                {
+                                    "title":"Welcome to Peter\'s Hats",
+                                    "image_url":"https://petersfancybrownhats.com/company_image.png",
+                                    "subtitle":"We\'ve got the right hat for everyone.",
+                                    "default_action": {
+                                        "type": "web_url",
+                                        "url": "https://peterssendreceiveapp.ngrok.io/view?item=103",
+                                        "messenger_extensions": true,
+                                        "webview_height_ratio": "tall",
+                                        "fallback_url": "https://peterssendreceiveapp.ngrok.io/"
+                                    },
+                                    "buttons":[
+                                        {
+                                            "type":"web_url",
+                                            "url":"https://petersfancybrownhats.com",
+                                            "title":"View Website"
+                                        },{
+                                            "type":"postback",
+                                            "title":"Start Chatting",
+                                            "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }`;
+                //msg = 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
             } else {
-                let card = helpers.createImageCard(session, 'Wifi guide', '', firstPart, 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png');
+                let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png');
                 // attach the card to the reply message
                 msg = new builder.Message(session).addAttachment(card);
             }
             session.send(msg);
-        }
+            nextSteps(session);
+        },
+        function (session) {
+            let channelType = session.message.source;
+            let msg;
+
+            let text =
+                '4. Select your wireless network name from the list.';
+
+            if(channelType =='facebook'){
+                msg = 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
+            } else {
+                let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'https://m0.ttxm.co.uk/gfx/help/turn_wifi_on_mac_2.png');
+                // attach the card to the reply message
+                msg = new builder.Message(session).addAttachment(card);
+            }
+            session.send(msg);
+        },
     ]);
 }
 
