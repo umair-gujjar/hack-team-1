@@ -52,8 +52,8 @@ function Helpers(builder) {
                         payload:{
                             template_type:"generic",
                             elements:[{
-                                title: title,
-                                subtitle: subtitle,
+                                title: text,
+                                subtitle: title,
                                 image_url: url,
                                 buttons: this.facebookButtonsCreator(buttons)
                             }]
