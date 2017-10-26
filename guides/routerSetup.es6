@@ -27,7 +27,7 @@ function routerSetup (builder, bot) {
             if(channelType =='facebook'){
                 msg = 'https://www.youtube.com/watch?v=5S8O_S_k5ek&t=15s';
             } else {
-                let card = helpers.createVideoCard(session);
+                let card = helpers.createVideoCard(session, 'Video guide', 'Setting up your Super Router', 'https://www.youtube.com/watch?v=5S8O_S_k5ek&t=15s');
                 // attach the card to the reply message
                 msg = new builder.Message(session).addAttachment(card);
             }
