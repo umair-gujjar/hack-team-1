@@ -31,7 +31,7 @@ function computerSetup(builder, bot) {
                 if(channelType =='facebook'){
                     msg = 'https://youtu.be/AxfGXk0SqCA';
                 } else {
-                    let card = helpers.createVideoCard(session);
+                    let card = helpers.createVideoCard(session, 'Mac wifi setup', '', 'https://youtu.be/AxfGXk0SqCA');
                     // attach the card to the reply message
                     msg = new builder.Message(session).addAttachment(card);
                 }
