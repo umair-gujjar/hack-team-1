@@ -69,6 +69,25 @@ function routerSetup (builder, bot) {
 
     }]);
 
+    bot.dialog('SocketTypeRouter', [(session) => {
+            session.send('Find your master socket');
+            session.send('Your master socket is the main phone socket in your home - it’s usually a little larger than a normal phone socket and often has a horizontal line in the middle.');
+            session.send('The type of master socket you have will determine whether or not you need to use microfilters');
+        }
+    ]);
+
+    bot.dialog('DisconnectRouter', [(session) => {
+            session.send('Unplug everything from your master socket and all other sockets in your home, including:');
+            session.send('Your phone cable');
+            session.send('Any microfilters');
+            session.send('Any splitters');
+        }
+    ]);
+
+    bot.dialog('RouterContactUs', (session) => {
+        session.endDialog('Please contact us via: 0345 172 0088');
+    });
+
     bot.dialog('EndRouterSetup', (session) => {
        session.endDialog('Is there anything else I can help you with?'); 
     });
