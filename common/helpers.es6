@@ -49,9 +49,9 @@ function Helpers(builder) {
                 facebook: {
                     attachment:{
                         type:"template",
-                        payload:{
+                        payload: {
                             template_type:"generic",
-                            text: text,
+                            //text: text,
                             elements:[{
                                 title: title,
                                 subtitle: subtitle,
