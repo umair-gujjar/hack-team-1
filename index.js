@@ -62,16 +62,19 @@ bot.dialog('RouterSetup', (session, results, next) => {
 });
 
 bot.dialog('Video', [(session, results, next) => {
-    let channel1 = session.message.address.channelId;
-    let channel2 = session.message.source;
-    session.send('Okay, here you go:' + channel1 + ' ' + channel2);
+    session.send('Okay, here you go:');
     next();
 },
     (session) => {
-        let card = createVideoCard(session);
-        
-        // attach the card to the reply message
-        let msg = new builder.Message(session).addAttachment(card);
+        let channelType = session.message.source;
+        let msg;
+        if(channelType =='facebook'){
+            msg = 'https://www.youtube.com/watch?v=5S8O_S_k5ek&t=15s';
+        } else {
+            let card = createVideoCard(session);
+            // attach the card to the reply message
+            msg = new builder.Message(session).addAttachment(card);
+        }
         session.send(msg);
     }]
 ).triggerAction({
