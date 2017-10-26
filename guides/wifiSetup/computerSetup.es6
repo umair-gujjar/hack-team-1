@@ -59,12 +59,12 @@ function computerSetup(builder, bot) {
                 '3. Your Mac will automatically scan for available wireless networks.\n';
 
             if(channelType =='facebook'){
-                msg = `{
-                    "attachment":{
+                msg = {
+                    attachment: {
                         "type":"template",
-                            "payload":{
+                        "payload":{
                             "template_type":"generic",
-                                "elements":[
+                            "elements":[
                                 {
                                     "title":"Welcome to Peter\'s Hats",
                                     "image_url":"https://petersfancybrownhats.com/company_image.png",
@@ -91,7 +91,7 @@ function computerSetup(builder, bot) {
                             ]
                         }
                     }
-                }`;
+                };
                 //msg = 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png';
             } else {
                 let card = helpers.createImageCard(session, 'Wifi guide', '', text, 'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png');
