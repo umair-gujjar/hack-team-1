@@ -46,6 +46,12 @@ bot.recognizer(recognizer);
 //     matches: 'Help'
 // });
 
+bot.dialog('RouterSetup', function (session) {
+    session.endDialog('Yes of course, would you like me to guide you through it or would you prefer a video?');
+}).triggerAction({
+    matches: 'RouterSetup'
+});
+
 bot.dialog('Help', function (session) {
     session.endDialog('You can ask help for: setting up your router');
 }).triggerAction({
