@@ -19,18 +19,6 @@ var bot = new builder.UniversalBot(connector, function (session) {
     session.send('Sorry, I did not understand \'%s\'. Type \'help\' if you need assistance.', session.message.text);
 });
 
-let askAnythingElse = (session) => {
-    builder.Prompts.confirm(session, 'Is there anything else I can help with?');
-};
-
-let handleYesNo = (session, results) => {
-    if (results.response) {
-        session.endDialog('How can I help you?');
-    } else {
-        session.endDialog('Good Bye');
-    }
-}
-
 function createVideoCard(session) {
     return new builder.VideoCard(session)
         .title('Video guide')
@@ -44,16 +32,6 @@ function createVideoCard(session) {
 // This Url can be obtained by uploading or creating your model from the LUIS portal: https://www.luis.ai/
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
-
-// bot.dialog('Help', [(session, results, next) => {
-//     session.send('You can ask help for: setting up your router');
-//     next();
-// },
-//     askAnythingElse,
-//     handleYesNo]
-// ).triggerAction({
-//     matches: 'Help'
-// });
 
 bot.dialog('RouterSetup', [
     function (session) {
