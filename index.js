@@ -54,23 +54,23 @@ bot.recognizer(recognizer);
 //     matches: 'Help'
 // });
 
-bot.dialog('RouterSetup', (session, results, next) => {
-    session.endDialog('Yes of course, would you like me to guide you through it or would you prefer a video?');
-}).triggerAction({
-    matches: 'RouterSetup'
-});
+// bot.dialog('RouterSetup', (session, results, next) => {
+//     session.endDialog('Yes of course, would you like me to guide you through it or would you prefer a video?');
+// }).triggerAction({
+//     matches: 'RouterSetup'
+// });
 
-bot.dialog('Video', function (session) {
-    session.endDialog('Okay here is the video');
-}).triggerAction({
-    matches: 'Video'
-});
+// bot.dialog('Video', function (session) {
+//     session.endDialog('Okay here is the video');
+// }).triggerAction({
+//     matches: 'Video'
+// });
 
-bot.dialog('Walkthrough', function (session) {
-    session.endDialog('Okay then lets begin the walkthrough.');
-}).triggerAction({
-    matches: 'WalkThrough'
-});
+// bot.dialog('Walkthrough', function (session) {
+//     session.endDialog('Okay then lets begin the walkthrough.');
+// }).triggerAction({
+//     matches: 'WalkThrough'
+// });
 
 bot.dialog('Help', function (session) {
     session.endDialog('You can ask help for: setting up your router');
