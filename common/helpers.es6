@@ -73,7 +73,7 @@ function Helpers(builder) {
     this.buttonsCreator = function (session, buttons) {
         return buttons.map((button) => {
             return builder.CardAction.dialogAction(session, button)
-        } );
+        });
     };
 
     this.facebookButtonsCreator = function (buttons) {
@@ -83,7 +83,7 @@ function Helpers(builder) {
                 "title": button,
                 "payload": button
             }
-        } );
+        });
     };
 }
 
