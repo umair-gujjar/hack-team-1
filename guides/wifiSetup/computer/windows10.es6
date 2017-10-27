@@ -37,7 +37,8 @@ function computerSetup(builder, bot) {
                 return;
             }
 
-            let text = 'Select your wireless network name from the list.';
+            let text = `Select your wireless network name from the list. 
+            Remember: you can find your wireless network name and password on the sticker on the back of your router, or on the card supplied with your router.`;
 
             session.send(
                 helpers.createImageCard(session, 'Wifi guide', '', '', 'http://m1.ttxm.co.uk/sites/rightnow/windows/Windows_10/Original-Wireless-list.png', [])
@@ -63,7 +64,7 @@ function computerSetup(builder, bot) {
 
             let text =
                 `Enter your Wi-Fi password and click Next.
-                Remember: you can find your wireless network name and password on the sticker on the back of your router, or on the card supplied with your router.`;
+                Remember: you can find your wireless password on the sticker on the back of your router, or on the card supplied with your router.`;
 
             session.send(helpers.createImageCard(session, 'Wifi guide', '', '', 'http://m3.ttxm.co.uk/sites/rightnow/windows/Windows_10/Enter-password.PNG', []));
             session.endDialog(text);
