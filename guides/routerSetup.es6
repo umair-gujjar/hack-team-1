@@ -49,7 +49,11 @@ function routerSetup (builder, bot) {
     bot.dialog('D-Link 3782 Super Router', [
         function (session) {
             session.send(helpers.createImageCard(session, 'Router Components', 'Do you have all these parts?', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png', []));
-            builder.Prompts.choice(session,' a', ['Yes','No']);
+            if(session.message.source == 'facebook'){
+                builder.Prompts.choice(session,'Do you have all these parts?', ['Yes','No']);
+            } else {
+                builder.Prompts.choice(session,' ', ['Yes','No']);
+            }
         },
         (session, results) => {
             if(results.response.entity == 'Yes') {
