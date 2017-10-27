@@ -153,7 +153,7 @@ function routerSetup (builder, bot) {
             if(results.response.entity == 'Yes'){
                 session.beginDialog('WifiSetup');
             } else {
-                //TODO: end dialog
+                session.endDialog('Ok, have a nice day!')
             }
         }]
     );
