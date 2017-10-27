@@ -25,7 +25,6 @@ function Helpers(builder) {
                         payload:{
                             template_type:"open_graph",
                             elements:[{
-                                title: title,
                                 url: url,
                             }]
                         }
@@ -64,11 +63,16 @@ function Helpers(builder) {
                     attachment:{
                         type:"template",
                         payload: {
-                            template_type:"open_graph",
+                            template_type:"generic",
                             //text: text,
                             elements:[{
-                                url: url,
-                                //buttons: this.facebookButtonsCreator(buttons)
+                                title: title,
+                                image_url: url,
+                                default_action: {
+                                    type: "web_url",
+                                    url: url,
+                                    webview_height_ratio: "TALL"
+                                }
                             }]
                         }
                     }
