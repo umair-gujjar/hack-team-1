@@ -185,36 +185,61 @@ function routerSetup (builder, bot) {
                 session.beginDialog('ConnectPreFilteredSocketRouter');
             }
         }
-        //TODO: function to offer choice between the two based on a card with a pictures and two choices
-        //This then links to DisconnectRouter, but one type of master socket will also include ConnectMicrofilters
     ]);
 
-    bot.dialog('DisconnectRouter', [(session) => {
+    bot.dialog('DisconnectRouter', [
+        (session) => {
             session.send('Unplug everything from your master socket and all other sockets in your home, including:');
             session.send('Your phone cable');
             session.send('Any microfilters');
             session.send('Any splitters');
         }
-        //TODO: maybe add a function to confirm whether they want to carry on
+        
     ]);
 
     bot.dialog('ConnectMicrofilters', () => {
         //TODO: Connect the microfilters pictures
-        console.log('HEY');
+        
     });
 
     bot.dialog('ConnectStandardSocketRouter', () => {
         //TODO: card with pictures on how to connect up router that includes some filter stuff
     });
 
-    bot.dialog('ConnectPreFilteredSocketRouter', () => {
-        //TODO: card with pictures on how to connect up router without filters
-    });
+    bot.dialog('ConnectPreFilteredSocketRouter', [
+        (session) => {
+            session.send(helpers.createImageCard(session, 'Connect A Pre-filtered Socket Router', '', '', 'https://m0.ttxm.co.uk/gfx/help/d-link_3782_setup_2.png', []));
+            session.send('Connect one end of the grey broadband cable into your master socket.');
+            session.send('Connect the other end of the broadband cable into the Broadband port on the back of your router.');
 
-    bot.dialog('PowerUpRouter', () => {
-        //TODO: card incl pic of turning on router
-        //make sure lights are green after a couple minutes and link to either RouterVideo or EndRouterSetup
-    });
+            helpers.nextSteps(session);
+        }, 
+        (session, results) => {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+            session.beginDialog('PowerUpRouter');
+        }
+    ]);
+
+    bot.dialog('PowerUpRouter', [
+        (session) => {
+        session.send(helpers.createImageCard(session, 'Power Up Your Router', '', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/power_router_on_dlink_3782.png', []));
+        session.send('Plug in the power supply at the wall and connect the other end to the back of the TalkTalk Router. Turn on the power.');
+        session.send('Press the on/off switch found at the side of the TalkTalk Router.');
+        session.send('Your line is activated when the Power, Broadband and Internet lights go solid green. This can take a few minutes.'); 
+        
+        builder.Prompts.choice(session,'Are there 3 solid green lights?', ['Yes', 'No']);
+        },
+        (session, results) => {
+            if(results.response.entity == 'Yes'){
+                session.send('You are connected!');
+                session.beginDialog('EndRouterSetup');
+            } else {
+                session.beginDialog('RouterContactUs');
+            }
+        }
+    ]);
 
     bot.dialog('RouterContactUs', (session) => {
         session.endDialog('Please contact us via: 0345 172 0088');
