@@ -25,6 +25,7 @@ function Helpers(builder) {
                         payload:{
                             template_type:"open_graph",
                             elements:[{
+                                title: url,
                                 url: url,
                             }]
                         }
