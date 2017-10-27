@@ -6,7 +6,7 @@ function Helpers(builder) {
 
     this.continue = function(session, results) {
         if (results.response.entity == 'No') {
-            session.endDialog('Can I help you with anything else?');
+            session.endDialog();
             return false;
         }
 
