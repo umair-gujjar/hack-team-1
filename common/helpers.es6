@@ -1,4 +1,18 @@
 function Helpers(builder) {
+
+    this.nextSteps = function(session) {
+        builder.Prompts.choice(session, 'Shall we to continue?', ['Yes', 'No']);
+    };
+
+    this.continue = function(session, results) {
+        if (results.response.entity == 'No') {
+            session.endDialog('Can I help you with anything else?');
+            return false;
+        }
+
+        return true;
+    };
+
     this.createVideoCard = function (session, title, subtitle, url) {
         let channelType = session.message.source;
         let msg = new builder.Message(session);
@@ -56,7 +70,7 @@ function Helpers(builder) {
                                 title: title,
                                 subtitle: subtitle,
                                 image_url: url,
-                                //buttons: this.facebookButtonsCreator(buttons)
+                                buttons: this.facebookButtonsCreator(buttons)
                             }]
                         }
                     }

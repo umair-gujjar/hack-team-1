@@ -1,45 +1,18 @@
 function computerSetup(builder, bot) {
-    let HelpersConstructor = require('../../common/helpers.es6');
+    let HelpersConstructor = require('../../../common/helpers.es6');
     let helpers = new HelpersConstructor(builder);
-
-    function nextSteps(session) {
-        builder.Prompts.text(session, 'Ready to continue?');
-    }
-
-    bot.dialog('Computer', [
-        function (session) {
-            builder.Prompts.choice(session, 'What kind of device you want to set up?', [
-                'Apple OS',
-                'Windows 10',
-                'Windows 8',
-                'windows 7',
-            ]);
-        },
-        function (session, results) {
-            session.beginDialog(results.response.entity);
-        }
-    ]);
 
     bot.dialog('Apple OS', [
         function (session) {
             builder.Prompts.choice(session, 'Would you like to see a video, or do a walkthrough?', [
-                'Video',
                 'Walkthrough',
+                'Video',
             ]);
         },
         function (session, results) {
             if (results.response.entity == 'Video'){
                 session.send('Okay, here you go:');
-                let channelType = session.message.source;
-                let msg;
-                if(channelType =='facebook'){
-                    msg = 'https://youtu.be/AxfGXk0SqCA';
-                } else {
-                    let card = helpers.createVideoCard(session, 'Mac wifi setup', '', 'https://youtu.be/AxfGXk0SqCA', []);
-                    // attach the card to the reply message
-                    msg = new builder.Message(session).addAttachment(card);
-                }
-                session.endDialog(msg);
+                session.endDialog(helpers.createVideoCard(session, 'Mac wifi setup', '', 'https://youtu.be/AxfGXk0SqCA', []));
             } else {
                 session.beginDialog('AppleWalktrough');
             }
@@ -48,9 +21,6 @@ function computerSetup(builder, bot) {
 
     bot.dialog('AppleWalktrough', [
         function (session) {
-            let channelType = session.message.source;
-            let msg;
-
             session.send('Okay then lets begin the walkthrough!');
 
             let text =
@@ -70,32 +40,37 @@ function computerSetup(builder, bot) {
             );
 
             session.send(text);
-            nextSteps(session);
+            helpers.nextSteps(session);
         },
-        function (session) {
-            let channelType = session.message.source;
-            let msg;
+        function (session, results) {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
 
             let text =
                 'Select your wireless network name from the list.';
 
-            session.send(helpers.createImageCard(session, 'Wifi guide', '', text, 'https://m0.ttxm.co.uk/gfx/help/turn_wifi_on_mac_2.png', []));
-            nextSteps(session);
+            session.send(helpers.createImageCard(session, 'Wifi guide', '', '', 'https://m0.ttxm.co.uk/gfx/help/turn_wifi_on_mac_2.png', []));
+            session.send(text);
+            helpers.nextSteps(session);
         },
-        function (session) {
-            let channelType = session.message.source;
-            let msg;
+        function (session, results) {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
 
             let text =
                 `Enter your password and click Join.
                 Remember: If you don’t know your wireless network name or password you can find them on your password card, or on the sticker on the back of your router.`;
 
-            session.send(helpers.createImageCard(session, 'Wifi guide', '', text, 'https://m1.ttxm.co.uk/gfx/help/turn_wifi_on_mac_3.png', []));
-            nextSteps(session);
+            session.send(helpers.createImageCard(session, 'Wifi guide', '', '', 'https://m1.ttxm.co.uk/gfx/help/turn_wifi_on_mac_3.png', []));
+            session.send(text);
+            helpers.nextSteps(session);
         },
-        function (session) {
-            let channelType = session.message.source;
-            let msg;
+        function (session, results) {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
 
             let text =
                 `You should now be ready to go online on your Mac computer.
