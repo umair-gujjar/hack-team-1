@@ -267,7 +267,7 @@ function routerSetup (builder, bot) {
 
     bot.dialog('EndRouterSetup', [
         (session) => {
-            builder.Prompts.choice(session, 'Is there anything else I can help you with?', ['Yes', 'No']);
+            builder.Prompts.choice(session, 'Should i guide you to connect to your wireless network?', ['Yes', 'No']);
         },
         (session, results) =>{
             if(results.response.entity == 'Yes'){
