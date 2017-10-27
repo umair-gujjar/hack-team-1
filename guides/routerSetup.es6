@@ -30,16 +30,16 @@ function routerSetup (builder, bot) {
     bot.dialog('RouterWalkthrough', [(session) => {
             session.send('Okay then lets begin to walk you through setting up your internet.');
             builder.Prompts.choice(session, 'Which router do you have?', [
-                'D-Link 3782 Super Router',
-                'HG633 Super Router',
-                'Non-TalkTalk Router'
+                'D-Link 3782',
+                'HG633',
+                'Non-TalkTalk'
             ]);
         },
         function (session, results) {
             session.userData.setupChoice = results.response.entity;
-            if(session.userData.setupChoice == 'D-Link 3782 Super Router'){
+            if(session.userData.setupChoice == 'D-Link 3782'){
                 session.beginDialog('D-Link 3782 Super Router');
-            } else if(session.userData.setupChoice == 'HG633 Super Router'){
+            } else if(session.userData.setupChoice == 'HG633'){
                 session.beginDialog('HG633 Super Router');
             } else {
                 session.beginDialog('Non-TalkTalk Router');
@@ -52,7 +52,7 @@ function routerSetup (builder, bot) {
     }]);
 
     bot.dialog('HG633 Super Router', [(session)=>{
-        
+
     }]);
 
     bot.dialog('Non-TalkTalk Router', [(session)=>{
