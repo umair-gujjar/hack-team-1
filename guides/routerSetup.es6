@@ -216,6 +216,13 @@ function routerSetup (builder, bot) {
             session.send(helpers.createImageCard(session, 'Connect Router to Standard Socket ', '', '', 'https://m0.ttxm.co.uk/gfx/help/d-link_3782_setup_1.png', []));
             session.send('Connect one end of the grey broadband cable into the ADSL port on your microfilter.');
             session.send('Connect the other end of the broadband cable into the Broadband port on the back of your router.');
+            helpers.nextSteps(session);
+        }, 
+        (session, results) => {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+            session.beginDialog('PowerUpRouter');
         }
     ]);
 
