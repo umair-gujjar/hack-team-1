@@ -18,8 +18,8 @@ function computerSetup(builder, bot) {
             session.beginDialog(results.response.entity);
         },
         function (session, results) {
-            session.endDialog();
-        },
+            session.endDialog('Can I help you with anything else?');
+        }
 
     ]);
 }
