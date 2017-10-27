@@ -36,8 +36,7 @@ function computerSetup(builder, bot) {
 
             let text =
                 `If you haven’t already, you’ll need to activate Wi-Fi on your Android device.
-
-            Select Wireless & Networks and tick Wi-Fi, or flip the Wi-Fi switch to ON.`;
+                Select Wireless & Networks and tick Wi-Fi, or flip the Wi-Fi switch to ON.`;
 
             session.send(helpers.createImageCard(session, 'Wifi guide', '', '', 'http://m2.ttxm.co.uk/sites/rightnow/android/android-settings.png', []));
             session.send(text);
@@ -62,8 +61,7 @@ function computerSetup(builder, bot) {
 
             let text =
                 `Enter your Wireless Network Password using the onscreen keyboard and tap Connect.
-
-Remember: You can find your Wireless Network Name and Password on the sticker at the back of your router.`;
+                Remember: You can find your Wireless Network Name and Password on the sticker at the back of your router.`;
 
             session.send(helpers.createImageCard(session, 'Wifi guide', '', '', 'http://m0.ttxm.co.uk/sites/rightnow/android/android-wifi-password.png', []));
             session.send(text);
@@ -76,8 +74,7 @@ Remember: You can find your Wireless Network Name and Password on the sticker at
 
             let text =
                 `You should now be connected to your wireless network. Try opening your web browser and surfing the web.
-
-If you’re still having trouble connecting to your wireless network, head over to the Android support site for more detailed help and troubleshooting`;
+                If you’re still having trouble connecting to your wireless network, head over to the Android support site for more detailed help and troubleshooting`;
 
             session.send(helpers.createImageCard(session, 'Wifi guide', '', '', 'http://m1.ttxm.co.uk/sites/rightnow/android/android-wifi-connected.png', []));
             session.endDialog(text);
