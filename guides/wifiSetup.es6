@@ -13,12 +13,7 @@ function wifiSetup (builder, bot) {
             builder.Prompts.choice(session, 'What kind of device you want to connect with wifi?', [
                 'Router',
                 'Computer',
-                'Gaming Console',
                 'Mobile',
-                'Tablet',
-                'Kindle',
-                'Smart TV',
-                'Powerline adapter'
             ]);
         },
         function (session, results) {
