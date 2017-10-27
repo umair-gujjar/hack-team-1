@@ -24,12 +24,18 @@ var bot = new builder.UniversalBot(connector, function (session) {
 var recognizer = new builder.LuisRecognizer(process.env.LUIS_MODEL_URL);
 bot.recognizer(recognizer);
 
+const greetings = 'Hi, I\'m Jay your virtual assistant, how can I help?';
+
 require('./guides/help.es6')(builder, bot);
 require('./guides/wifiSetup.es6')(builder, bot);
 require('./guides/routerSetup.es6')(builder, bot);
 
-
-const greetings = 'Hi, I\'m Jay your virtual assistant, how can I help?';
+bot.dialog('Greetings',
+    function (session) {
+        session.endDialog(greetings);
+    }).triggerAction({
+        matches: 'Hello'
+    });
 
 bot.on('conversationUpdate', function (activity) {
     // when user joins conversation, send instructions
