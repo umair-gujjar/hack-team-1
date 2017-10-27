@@ -46,9 +46,19 @@ function routerSetup (builder, bot) {
         }]
     );
 
-    bot.dialog('D-Link 3782 Super Router', [(session) => {
-        session.send(helpers.createImageCard(session, 'Router Components', 'Do you have all these parts?', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png', ['Yes', 'No']));
-    }]);
+    bot.dialog('D-Link 3782 Super Router', [
+        function (session) {
+            session.send(helpers.createImageCard(session, 'Router Components', 'Do you have all these parts?', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png', []));
+            builder.Prompts.choice(session,' ', ['Yes','No']);
+        },
+        (session, results) => {
+            if(results.response.entity == 'Yes') {
+                session.beginDialog('SocketTypeRouter');
+            } else {
+                session.beginDialog('RouterContactUs');
+            }
+        }
+    ]);
 
     bot.dialog('HG633 Super Router', [(session) => {
 
@@ -151,10 +161,29 @@ function routerSetup (builder, bot) {
         }
     ]);
 
-    bot.dialog('SocketTypeRouter', [(session) => {
+    bot.dialog('SocketTypeRouter', [
+        function (session) {
             session.send('Find your master socket');
             session.send('Your master socket is the main phone socket in your home - it’s usually a little larger than a normal phone socket and often has a horizontal line in the middle.');
             session.send('The type of master socket you have will determine whether or not you need to use microfilters');
+            helpers.nextSteps(session);
+        },
+        function (session, results) {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+            session.send(helpers.createImageCard(session, 'Types of Sockets', '', '', 'https://i.imgur.com/k6XkRzw.png', []));
+            builder.Prompts.choice(session, 'What type of socket do you have?', ['Standard','Pre-filtered']);
+        },
+        function (session, results) {
+            if(results.response.entity == 'Standard'){
+                session.beginDialog('DisconnectRouter');
+                session.beginDialog('ConnectMicrofilters');
+                session.beginDialog('ConnectStandardSocketRouter');                
+            } else {
+                session.beginDialog('DisconnectRouter');
+                session.beginDialog('ConnectPreFilteredSocketRouter');
+            }
         }
         //TODO: function to offer choice between the two based on a card with a pictures and two choices
         //This then links to DisconnectRouter, but one type of master socket will also include ConnectMicrofilters
@@ -171,6 +200,7 @@ function routerSetup (builder, bot) {
 
     bot.dialog('ConnectMicrofilters', () => {
         //TODO: Connect the microfilters pictures
+        console.log('HEY');
     });
 
     bot.dialog('ConnectStandardSocketRouter', () => {
