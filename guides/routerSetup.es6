@@ -197,14 +197,37 @@ function routerSetup (builder, bot) {
         
     ]);
 
-    bot.dialog('ConnectMicrofilters', () => {
-        //TODO: Connect the microfilters pictures
-        
-    });
+    bot.dialog('ConnectMicrofilters', [
+        (session) => {
+            session.send(helpers.createImageCard(session, 'Connect Microfilters', '', '', 'http://m2.ttxm.co.uk/gfx/help/2316/phone_microfilter_diagram_9052.png', []));
+            session.send('Plug your microfilter into your master socket.');
+            session.send('If you have a phone, plug the cable into the Phone port on the microfilter.');
+            session.send("It's important that you plug a microfilter into every socket you're using in your home. You can buy extra microfilters from the TalkTalk Shop or any electronics shop. ");
+            session.send('Never plug microfilters into other microfilters. This will affect your broadband performance');
 
-    bot.dialog('ConnectStandardSocketRouter', () => {
-        //TODO: card with pictures on how to connect up router that includes some filter stuff
-    });
+            helpers.nextSteps(session);
+        },
+        (session, results) => {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+        }
+    ]);
+
+    bot.dialog('ConnectStandardSocketRouter', [
+        (session) => {
+            session.send(helpers.createImageCard(session, 'Connect Router to Standard Socket ', '', '', 'https://m0.ttxm.co.uk/gfx/help/d-link_3782_setup_1.png', []));
+            session.send('Connect one end of the grey broadband cable into the ADSL port on your microfilter.');
+            session.send('Connect the other end of the broadband cable into the Broadband port on the back of your router.');
+
+            helpers.nextSteps(session);
+        },
+        (session) => {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+        }
+    ]);
 
     bot.dialog('ConnectPreFilteredSocketRouter', [
         (session) => {
