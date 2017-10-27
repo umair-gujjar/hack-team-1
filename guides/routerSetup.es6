@@ -35,8 +35,15 @@ function routerSetup (builder, bot) {
                 'Non-TalkTalk Router'
             ]);
         },
-        (session, results) => {
-            session.beginDialog(results.response.entity);
+        function (session, results) {
+            session.userData.setupChoice = results.response.entity;
+            if(session.userData.setupChoice == 'D-Link 3782 Super Router'){
+                session.beginDialog('D-Link 3782 Super Router');
+            } else if(session.userData.setupChoice == 'HG633 Super Router'){
+                session.beginDialog('HG633 Super Router');
+            } else {
+                session.beginDialog('Non-TalkTalk Router');
+            }
         }]
     );
 
@@ -45,11 +52,11 @@ function routerSetup (builder, bot) {
     }]);
 
     bot.dialog('HG633 Super Router', [(session)=>{
-
+        
     }]);
 
     bot.dialog('Non-TalkTalk Router', [(session)=>{
-
+        
     }]);
 
     bot.dialog('SocketTypeRouter', [(session) => {
