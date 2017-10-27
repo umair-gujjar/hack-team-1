@@ -46,9 +46,23 @@ function routerSetup (builder, bot) {
         }]
     );
 
-    bot.dialog('D-Link 3782 Super Router', [(session) => {
-        session.send(helpers.createImageCard(session, 'Router Components', 'Do you have all these parts?', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png', ['Yes', 'No']));
-    }]);
+    bot.dialog('D-Link 3782 Super Router', [
+        function (session) {
+            session.send(helpers.createImageCard(session, 'Router Components', 'Do you have all these parts?', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png', []));
+            if(session.message.source == 'facebook'){
+                builder.Prompts.choice(session,'Do you have all these parts?', ['Yes','No']);
+            } else {
+                builder.Prompts.choice(session,' ', ['Yes','No']);
+            }
+        },
+        (session, results) => {
+            if(results.response.entity == 'Yes') {
+                session.beginDialog('SocketTypeRouter');
+            } else {
+                session.beginDialog('RouterContactUs');
+            }
+        }
+    ]);
 
     bot.dialog('HG633 Super Router', [(session) => {
 
@@ -68,8 +82,8 @@ function routerSetup (builder, bot) {
 
     bot.dialog('Non-TalkTalk Customer', [
         function (session) {
-            session.send('Ok, you need to enter the following information manually into the connection settings on your router.');
-            session.send('First, you need to add a username. This would be visit the manufacturer’s website or check your router manual.');
+            session.send('Ok, you need to enter the following information manually into the connection settings on your router. This would be visit the manufacturer’s website or check your router manual.');
+            session.send('First, you need to add a username. This will be your telephone number followed by @talktalk.net - for example, 1234567891@talktalk.net');
             
             helpers.nextSteps(session);
         },
@@ -102,44 +116,134 @@ function routerSetup (builder, bot) {
         }
     ]);
     
-    bot.dialog('TalkTalk TV', [(session) => {
-        
-    }]);
+    bot.dialog('TalkTalk TV', [
+        function (session) {
+            session.send('Ok, you will need to configure IGMP for it to work correctly. IGMP is the data that your TalkTalk TV box uses to enable Internet channels, and not all routers support it.');
+            session.send('To check whether your router is compatible, login to your router and look in the Settings section for any options to configure IGMP.');
+            
+            builder.Prompts.choice(session, 'Is your router supported?' ,['Yes', 'No']);
+        },
+        (session,results) => {
+            if(results.response.entity == 'Yes'){
+                session.beginDialog('TalkTalk TV Router');
+            } else {
+                session.send("I'm sorry but you will need to change your router for this to work.");
 
-    bot.dialog('SocketTypeRouter', [(session) => {
+                session.beginDialog('EndRouterSetup');
+            }
+        }
+    ]);
+
+    bot.dialog('TalkTalk TV Router', [
+        function (session) {
+            session.send('First, you need to add a username. This will be your telephone number followed by @talktalk.net - for example, 1234567891@talktalk.net');            
+
+            helpers.nextSteps(session);
+        },
+        function (session, results) {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+            session.send("Next, you need to enter in the password.  this is the password your router uses to connect to the exchange. If you don't know it, You can call our automated reminder service on 0345 172 0049.");
+
+            helpers.nextSteps(session);
+        },
+        function (session, results) {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+            session.send('Great, next you will need to enable IGMP Proxy.');
+            session.send('If this option is not visible, try adding a second connection bridge using the VPI / VCI settings below:');
+            session.send('Set the IGMP Proxy to IGMP V2/V3, Enable IGMP Snooping, VPI: 0, VCI: 65, QoS: ubr, Encapsulation: 1483 Bridged Only LLC, BridgeType: PPP');
+
+            helpers.nextSteps(session);
+        },
+        function (session, results) {
+            session.send('Ok now that should be done. All you have to do is save those changes and just turn the router and TV Box off and on again and you should be sorted.');
+            
+            session.beginDialog('EndRouterSetup');
+        }
+    ]);
+
+    bot.dialog('SocketTypeRouter', [
+        function (session) {
             session.send('Find your master socket');
             session.send('Your master socket is the main phone socket in your home - it’s usually a little larger than a normal phone socket and often has a horizontal line in the middle.');
             session.send('The type of master socket you have will determine whether or not you need to use microfilters');
+            helpers.nextSteps(session);
+        },
+        function (session, results) {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+            session.send(helpers.createImageCard(session, 'Types of Sockets', '', '', 'https://i.imgur.com/k6XkRzw.png', []));
+            builder.Prompts.choice(session, 'What type of socket do you have?', ['Standard','Pre-filtered']);
+        },
+        function (session, results) {
+            if(results.response.entity == 'Standard'){
+                session.beginDialog('DisconnectRouter');
+                session.beginDialog('ConnectMicrofilters');
+                session.beginDialog('ConnectStandardSocketRouter');                
+            } else {
+                session.beginDialog('DisconnectRouter');
+                session.beginDialog('ConnectPreFilteredSocketRouter');
+            }
         }
-        //TODO: function to offer choice between the two based on a card with a pictures and two choices
-        //This then links to DisconnectRouter, but one type of master socket will also include ConnectMicrofilters
     ]);
 
-    bot.dialog('DisconnectRouter', [(session) => {
+    bot.dialog('DisconnectRouter', [
+        (session) => {
             session.send('Unplug everything from your master socket and all other sockets in your home, including:');
             session.send('Your phone cable');
             session.send('Any microfilters');
             session.send('Any splitters');
         }
-        //TODO: maybe add a function to confirm whether they want to carry on
+        
     ]);
 
     bot.dialog('ConnectMicrofilters', () => {
         //TODO: Connect the microfilters pictures
+        
     });
 
     bot.dialog('ConnectStandardSocketRouter', () => {
         //TODO: card with pictures on how to connect up router that includes some filter stuff
     });
 
-    bot.dialog('ConnectPreFilteredSocketRouter', () => {
-        //TODO: card with pictures on how to connect up router without filters
-    });
+    bot.dialog('ConnectPreFilteredSocketRouter', [
+        (session) => {
+            session.send(helpers.createImageCard(session, 'Connect A Pre-filtered Socket Router', '', '', 'https://m0.ttxm.co.uk/gfx/help/d-link_3782_setup_2.png', []));
+            session.send('Connect one end of the grey broadband cable into your master socket.');
+            session.send('Connect the other end of the broadband cable into the Broadband port on the back of your router.');
 
-    bot.dialog('PowerUpRouter', () => {
-        //TODO: card incl pic of turning on router
-        //make sure lights are green after a couple minutes and link to either RouterVideo or EndRouterSetup
-    });
+            helpers.nextSteps(session);
+        }, 
+        (session, results) => {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+            session.beginDialog('PowerUpRouter');
+        }
+    ]);
+
+    bot.dialog('PowerUpRouter', [
+        (session) => {
+        session.send(helpers.createImageCard(session, 'Power Up Your Router', '', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/power_router_on_dlink_3782.png', []));
+        session.send('Plug in the power supply at the wall and connect the other end to the back of the TalkTalk Router. Turn on the power.');
+        session.send('Press the on/off switch found at the side of the TalkTalk Router.');
+        session.send('Your line is activated when the Power, Broadband and Internet lights go solid green. This can take a few minutes.'); 
+        
+        builder.Prompts.choice(session,'Are there 3 solid green lights?', ['Yes', 'No']);
+        },
+        (session, results) => {
+            if(results.response.entity == 'Yes'){
+                session.send('You are connected!');
+                session.beginDialog('EndRouterSetup');
+            } else {
+                session.beginDialog('RouterContactUs');
+            }
+        }
+    ]);
 
     bot.dialog('RouterContactUs', (session) => {
         session.endDialog('Please contact us via: 0345 172 0088');

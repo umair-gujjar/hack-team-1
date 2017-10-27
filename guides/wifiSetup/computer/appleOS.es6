@@ -63,7 +63,7 @@ function computerSetup(builder, bot) {
                 `Enter your password and click Join.
                 Remember: If you don’t know your wireless network name or password you can find them on your password card, or on the sticker on the back of your router.`;
 
-            session.send(helpers.createImageCard(session, 'Wifi guide', '', '', 'https://m1.ttxm.co.uk/gfx/help/turn_wifi_on_mac_3.png', []));
+            session.send(helpers.createImageCard(session, 'Types of Sockets', '', '', 'https://i.imgur.com/k6XkRzw.png', []));
             session.send(text);
             helpers.nextSteps(session);
         },
