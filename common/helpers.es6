@@ -1,7 +1,7 @@
 function Helpers(builder) {
 
     this.nextSteps = function(session) {
-        builder.Prompts.choice(session, 'Shall we ontinue?', ['Yes', 'No']);
+        builder.Prompts.choice(session, 'Shall we continue?', ['Yes', 'No']);
     };
 
     this.continue = function(session, results) {
