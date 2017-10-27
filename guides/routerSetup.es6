@@ -3,7 +3,7 @@ function routerSetup (builder, bot) {
     let helpers = new helpersConstructor(builder);
 
     bot.dialog('RouterSetup', [
-        function (session) {
+        (session) => {
             builder.Prompts.choice(session, 'Would you prefer a video or walkthrough?', ['Walkthrough', 'Video']);
         },
         (session, results) => {
@@ -47,7 +47,7 @@ function routerSetup (builder, bot) {
     );
 
     bot.dialog('D-Link 3782 Super Router', [
-        function (session) {
+        (session) => {
             session.send(helpers.createImageCard(session, 'Router Components', 'Do you have all these parts?', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png', []));
             if(session.message.source == 'facebook'){
                 builder.Prompts.choice(session,'Do you have all these parts?', ['Yes','No']);
@@ -65,7 +65,7 @@ function routerSetup (builder, bot) {
     ]);
 
     bot.dialog('HG633 Super Router', [(session) => {
-
+        //TODO.......
     }]);
 
     bot.dialog('Non-TalkTalk Router', [(session)=>{
@@ -81,13 +81,13 @@ function routerSetup (builder, bot) {
     );
 
     bot.dialog('Non-TalkTalk Customer', [
-        function (session) {
+        (session) => {
             session.send('Ok, you need to enter the following information manually into the connection settings on your router. This would be visit the manufacturer’s website or check your router manual.');
             session.send('First, you need to add a username. This will be your telephone number followed by @talktalk.net - for example, 1234567891@talktalk.net');
             
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -96,7 +96,7 @@ function routerSetup (builder, bot) {
             
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -105,7 +105,7 @@ function routerSetup (builder, bot) {
         
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -117,7 +117,7 @@ function routerSetup (builder, bot) {
     ]);
     
     bot.dialog('TalkTalk TV', [
-        function (session) {
+        (session) => {
             session.send('Ok, you will need to configure IGMP for it to work correctly. IGMP is the data that your TalkTalk TV box uses to enable Internet channels, and not all routers support it.');
             session.send('To check whether your router is compatible, login to your router and look in the Settings section for any options to configure IGMP.');
             
@@ -135,12 +135,12 @@ function routerSetup (builder, bot) {
     ]);
 
     bot.dialog('TalkTalk TV Router', [
-        function (session) {
+        (session) => {
             session.send('First, you need to add a username. This will be your telephone number followed by @talktalk.net - for example, 1234567891@talktalk.net');            
 
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -148,7 +148,7 @@ function routerSetup (builder, bot) {
 
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -158,7 +158,7 @@ function routerSetup (builder, bot) {
 
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             session.send('Ok now that should be done. All you have to do is save those changes and just turn the router and TV Box off and on again and you should be sorted.');
             
             session.beginDialog('EndRouterSetup');
@@ -166,20 +166,20 @@ function routerSetup (builder, bot) {
     ]);
 
     bot.dialog('SocketTypeRouter', [
-        function (session) {
+        (session) => {
             session.send('Find your master socket');
             session.send('Your master socket is the main phone socket in your home - it’s usually a little larger than a normal phone socket and often has a horizontal line in the middle.');
             session.send('The type of master socket you have will determine whether or not you need to use microfilters');
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
             session.send(helpers.createImageCard(session, 'Types of Sockets', '', '', 'https://i.imgur.com/k6XkRzw.png', []));
             builder.Prompts.choice(session, 'What type of socket do you have?', ['Standard','Pre-filtered']);
         },
-        function (session, results) {
+        (session, results) => {
             if(results.response.entity == 'Standard'){
                 session.beginDialog('DisconnectRouter');
                 session.beginDialog('ConnectMicrofilters');
@@ -208,13 +208,6 @@ function routerSetup (builder, bot) {
             session.send('If you have a phone, plug the cable into the Phone port on the microfilter.');
             session.send("It's important that you plug a microfilter into every socket you're using in your home. You can buy extra microfilters from the TalkTalk Shop or any electronics shop. ");
             session.send('Never plug microfilters into other microfilters. This will affect your broadband performance');
-
-            helpers.nextSteps(session);
-        },
-        (session, results) => {
-            if(!helpers.continue(session, results)) {
-                return;
-            }
         }
     ]);
 
@@ -223,13 +216,6 @@ function routerSetup (builder, bot) {
             session.send(helpers.createImageCard(session, 'Connect Router to Standard Socket ', '', '', 'https://m0.ttxm.co.uk/gfx/help/d-link_3782_setup_1.png', []));
             session.send('Connect one end of the grey broadband cable into the ADSL port on your microfilter.');
             session.send('Connect the other end of the broadband cable into the Broadband port on the back of your router.');
-
-            helpers.nextSteps(session);
-        },
-        (session) => {
-            if(!helpers.continue(session, results)) {
-                return;
-            }
         }
     ]);
 
@@ -273,10 +259,10 @@ function routerSetup (builder, bot) {
     });
 
     bot.dialog('EndRouterSetup', [
-        function (session) {
+        (session) => {
             builder.Prompts.choice(session, 'Is there anything else I can help you with?', ['Yes', 'No']);
         },
-        function (session, results) {
+        (session, results) =>{
             if(results.response.entity == 'Yes'){
                 session.beginDialog('WifiSetup');
             } else {
