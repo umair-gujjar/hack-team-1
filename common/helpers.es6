@@ -23,11 +23,9 @@ function Helpers(builder) {
                     attachment:{
                         type:"template",
                         payload:{
-                            template_type:"generic",
+                            template_type:"open_graph",
                             elements:[{
-                                title: title,
-                                subtitle: subtitle,
-                                image_url: url,
+                                url: url,
                             }]
                         }
                     }
