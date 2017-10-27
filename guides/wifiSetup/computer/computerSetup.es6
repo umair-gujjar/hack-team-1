@@ -10,8 +10,6 @@ function computerSetup(builder, bot) {
             builder.Prompts.choice(session, 'What kind of operating system you have on that device?', [
                 'Apple OS',
                 'Windows 10',
-                'Windows 8',
-                'Windows 7',
             ]);
         },
         function (session, results) {
