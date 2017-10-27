@@ -5,7 +5,7 @@ function routerSetup (builder, bot) {
         function (session) {
             builder.Prompts.choice(session, 'Would you prefer a video or walkthrough?', ['Walkthrough', 'Video']);
         },
-        function (session, results) {
+        (session, results) => {
             session.userData.setupChoice = results.response.entity;
             if(session.userData.setupChoice == 'Video'){
                 session.beginDialog('RouterVideo');
@@ -35,7 +35,7 @@ function routerSetup (builder, bot) {
                 'Non-TalkTalk'
             ]);
         },
-        function (session, results) {
+        (session, results) => {
             session.userData.setupChoice = results.response.entity;
             if(session.userData.setupChoice == 'D-Link 3782'){
                 session.beginDialog('D-Link 3782 Super Router');
@@ -47,15 +47,38 @@ function routerSetup (builder, bot) {
         }]
     );
 
-    bot.dialog('D-Link 3782 Super Router', [(session)=>{
+    bot.dialog('D-Link 3782 Super Router', [(session) => {
         session.send(helpers.createImageCard(session, 'Router Components', 'Do you have all these parts?', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/d-link_3782_box_contents.png', ['Yes', 'No']));
     }]);
 
-    bot.dialog('HG633 Super Router', [(session)=>{
+    bot.dialog('HG633 Super Router', [(session) => {
 
     }]);
 
     bot.dialog('Non-TalkTalk Router', [(session)=>{
+        builder.Prompts.choice(session, 'Just a quick question, are a you a TalkTalk TV Customer?', ['Yes', 'No']);
+        },
+        (session, results) => {
+            session.userData.setupChoice = results.response.entity;
+            if(session.userData.setupChoice == 'No') {
+                session.beginDialog('Non-TalkTalk Customer');
+            } else {
+                session.beginDialog('TalkTalk TV');
+            }
+        }]
+    );
+
+    bot.dialog('Non-TalkTalk Customer', [(session) => {
+        session.send('Ok, you need to enter the following information manually into the connection settings on your router.');
+        session.send('If you cannot find this, you need to visit the manufacturer’s website or check your router manual.');
+        session.send('First, you need to add a username. This would be visit the manufacturer’s website or check your router manual.');
+        session.send("Next, you need to enter in the password.  this is the password your router uses to connect to the exchange. If you don't know it, You can call our automated reminder service on 0345 172 0049.");
+        session.send('Ok now, you need to set the following things to this values: VPI: 0, VCI: 38, MTU: 1432, DNS settings: Set as automatic (or similar), Encapsulation: PPP over ATM (PPPoA) using VC-MUX, Modulation Type: Auto');
+        session.send('Ok now that should be done. All you have to do is save those changes and just turn the router off and on again and you should be sorted.')
+        }]
+    );
+    
+    bot.dialog('TalkTalk TV', [(session) => {
         
     }]);
 
