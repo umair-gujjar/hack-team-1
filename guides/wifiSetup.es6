@@ -1,4 +1,5 @@
 function wifiSetup (builder, bot) {
+    require('./routerSetup/routerSetup.es6')(builder, bot);
     require('./wifiSetup/computer/computerSetup.es6')(builder, bot);
     require('./wifiSetup/mobile/mobileSetup.es6')(builder, bot);
     /*require('./gamingConsole.es6')(builder, bot);
