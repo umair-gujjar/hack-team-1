@@ -52,8 +52,14 @@ function DLink (builder, bot) {
             session.send('Your phone cable');
             session.send('Any microfilters');
             session.send('Any splitters');
+
+            helpers.nextSteps(session);
+        },
+        (session, results) => {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
         }
-        
     ]);
 
     bot.dialog('ConnectMicrofilters', [
