@@ -1,13 +1,13 @@
 function routerSetup (builder, bot) {
     let helpersConstructor = require('../common/helpers.es6');
     let helpers = new helpersConstructor(builder);
+
     bot.dialog('RouterSetup', [
         function (session) {
             builder.Prompts.choice(session, 'Would you prefer a video or walkthrough?', ['Walkthrough', 'Video']);
         },
         (session, results) => {
-            session.userData.setupChoice = results.response.entity;
-            if(session.userData.setupChoice == 'Video'){
+            if(results.response.entity == 'Video'){
                 session.beginDialog('RouterVideo');
             } else {
                 session.beginDialog('RouterWalkthrough')
@@ -36,10 +36,9 @@ function routerSetup (builder, bot) {
             ]);
         },
         (session, results) => {
-            session.userData.setupChoice = results.response.entity;
-            if(session.userData.setupChoice == 'D-Link 3782'){
+            if(results.response.entity == 'D-Link 3782'){
                 session.beginDialog('D-Link 3782 Super Router');
-            } else if(session.userData.setupChoice == 'HG633'){
+            } else if(results.response.entity == 'HG633'){
                 session.beginDialog('HG633 Super Router');
             } else {
                 session.beginDialog('Non-TalkTalk Router');
@@ -56,11 +55,10 @@ function routerSetup (builder, bot) {
     }]);
 
     bot.dialog('Non-TalkTalk Router', [(session)=>{
-        builder.Prompts.choice(session, 'Just a quick question, are a you a TalkTalk TV Customer?', ['Yes', 'No']);
+        builder.Prompts.choice(session, 'Just a quick question, are you a TalkTalk TV Customer?', ['Yes', 'No']);
         },
         (session, results) => {
-            session.userData.setupChoice = results.response.entity;
-            if(session.userData.setupChoice == 'No') {
+            if(results.response.entity == 'No') {
                 session.beginDialog('Non-TalkTalk Customer');
             } else {
                 session.beginDialog('TalkTalk TV');
@@ -68,15 +66,41 @@ function routerSetup (builder, bot) {
         }]
     );
 
-    bot.dialog('Non-TalkTalk Customer', [(session) => {
-        session.send('Ok, you need to enter the following information manually into the connection settings on your router.');
-        session.send('If you cannot find this, you need to visit the manufacturer’s website or check your router manual.');
-        session.send('First, you need to add a username. This would be visit the manufacturer’s website or check your router manual.');
-        session.send("Next, you need to enter in the password.  this is the password your router uses to connect to the exchange. If you don't know it, You can call our automated reminder service on 0345 172 0049.");
-        session.send('Ok now, you need to set the following things to this values: VPI: 0, VCI: 38, MTU: 1432, DNS settings: Set as automatic (or similar), Encapsulation: PPP over ATM (PPPoA) using VC-MUX, Modulation Type: Auto');
-        session.send('Ok now that should be done. All you have to do is save those changes and just turn the router off and on again and you should be sorted.')
-        }]
-    );
+    bot.dialog('Non-TalkTalk Customer', [
+        function (session) {
+            session.send('Ok, you need to enter the following information manually into the connection settings on your router.');
+            session.send('First, you need to add a username. This would be visit the manufacturer’s website or check your router manual.');
+            
+            helpers.nextSteps(session);
+        },
+        function (session, results) {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+
+            session.send("Next, you need to enter in the password.  this is the password your router uses to connect to the exchange. If you don't know it, You can call our automated reminder service on 0345 172 0049.");
+            
+            helpers.nextSteps(session);
+        },
+        function (session, results) {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+
+            session.send('Ok now, you need to set the following things to this values: VPI: 0, VCI: 38, MTU: 1432, DNS settings: Set as automatic (or similar), Encapsulation: PPP over ATM (PPPoA) using VC-MUX, Modulation Type: Auto');
+        
+            helpers.nextSteps(session);
+        },
+        function (session, results) {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+
+            session.send('Ok now that should be done. All you have to do is save those changes and just turn the router off and on again and you should be sorted.');
+
+            session.beginDialog('EndRouterSetup');
+        }
+    ]);
     
     bot.dialog('TalkTalk TV', [(session) => {
         
@@ -126,9 +150,8 @@ function routerSetup (builder, bot) {
             builder.Prompts.choice(session, 'Is there anything else I can help you with?', ['Yes', 'No']);
         },
         function (session, results) {
-            session.userData.setupChoice = results.response.entity;
-            if(session.userData.setupChoice == 'yes'){
-                //TODO: offer help maybe?
+            if(results.response.entity == 'Yes'){
+                session.beginDialog('WifiSetup');
             } else {
                 //TODO: end dialog
             }
