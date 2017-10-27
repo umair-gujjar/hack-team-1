@@ -71,7 +71,7 @@ function Helpers(builder) {
                                 title: title,
                                 subtitle: subtitle,
                                 image_url: url,
-                                buttons: this.facebookButtonsCreator(buttons)
+                                //buttons: this.facebookButtonsCreator(buttons)
                             }]
                         }
                     }
