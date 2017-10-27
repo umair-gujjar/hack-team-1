@@ -28,7 +28,7 @@ const greetings = 'Hi, I\'m Jay your virtual assistant, how can I help?';
 
 require('./guides/help.es6')(builder, bot);
 require('./guides/wifiSetup.es6')(builder, bot);
-require('./guides/routerSetup.es6')(builder, bot);
+//require('./guides/routerSetup.es6')(builder, bot);
 
 bot.dialog('Greetings',
     function (session) {
