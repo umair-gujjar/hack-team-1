@@ -16,12 +16,6 @@ function Helpers(builder) {
     this.createVideoCard = function (session, title, subtitle, url) {
         let channelType = session.message.source;
         let msg = new builder.Message(session);
-        let attachment = new builder.VideoCard(session)
-            .title(title)
-            .subtitle(subtitle)
-            .media([
-                { url: url }
-            ]);
 
         if (channelType =='facebook') {
             msg.sourceEvent({
@@ -40,6 +34,13 @@ function Helpers(builder) {
                 }
             });
         } else {
+            let attachment = new builder.VideoCard(session)
+                .title(title)
+                .subtitle(subtitle)
+                .media([
+                    { url: url }
+                ]
+            );
             msg.addAttachment(attachment);
         }
 
@@ -86,7 +87,7 @@ function Helpers(builder) {
     this.buttonsCreator = function (session, buttons) {
         return buttons.map((button) => {
             return builder.CardAction.dialogAction(session, button)
-        } );
+        });
     };
 
     this.facebookButtonsCreator = function (buttons) {
@@ -96,7 +97,7 @@ function Helpers(builder) {
                 "title": button,
                 "payload": button
             }
-        } );
+        });
     };
 }
 
