@@ -32,7 +32,7 @@ require('./guides/routerSetup.es6')(builder, bot);
 
 bot.dialog('Greetings',
     function (session) {
-        session.endDialog(greetings);
+        session.endDialog("Hello! Ask me about router setup or wifi connection!");
     }).triggerAction({
         matches: 'Hello'
     });
