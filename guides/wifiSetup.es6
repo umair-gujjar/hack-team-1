@@ -21,7 +21,10 @@ function wifiSetup (builder, bot) {
             ]);
         },
         function (session, results) {
-                session.beginDialog(results.response.entity);
+            session.beginDialog(results.response.entity);
+        },
+        function (session, results) {
+            session.endDialog('Can I help you with anything else?');
         }
     ]).triggerAction({
         matches: 'WifiSetup'
