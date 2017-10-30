@@ -6,7 +6,7 @@ function Helpers(builder) {
 
     this.continue = function(session, results) {
         if (results.response.entity == 'No') {
-            session.endDialog();
+            session.beginDialog('EndDeviceDialog')
             return false;
         }
 

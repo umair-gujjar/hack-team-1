@@ -17,18 +17,18 @@ function computerSetup(builder, bot) {
         },
     ]);
 
-    bot.dialog('EndComputerDialog', [
+    bot.dialog('EndComputerSetup', [
         (session) => {
             builder.Prompts.choice(session, 'Is there anything else I can help you with?', ['Yes', 'No']);
         },
-        (session, results) => {
+        (session, results) =>{
             if(results.response.entity == 'Yes'){
                 session.beginDialog('WifiSetup');
             } else {
                 session.endDialog('Ok, have a nice day!');
             }
-        }
-    ]);
+        }]
+    );
 }
 
 module.exports = computerSetup;

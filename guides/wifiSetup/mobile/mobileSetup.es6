@@ -16,7 +16,7 @@ function computerSetup(builder, bot) {
             session.beginDialog(results.response.entity);
         },
         (session, results) => {
-            session.endDialog('Can I help you with anything else?');
+            session.beginDialog('EndRouterSetup');
         }
     ]);
 }
