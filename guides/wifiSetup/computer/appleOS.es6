@@ -12,7 +12,7 @@ function computerSetup(builder, bot) {
         function (session, results) {
             if (results.response.entity == 'Video'){
                 session.send('Okay, here you go:');
-                session.endDialog(helpers.createVideoCard(session, 'Mac wifi setup', '', 'https://youtu.be/AxfGXk0SqCA', []));
+                session.send(helpers.createVideoCard(session, 'Mac wifi setup', '', 'https://youtu.be/AxfGXk0SqCA', []));
             } else {
                 session.beginDialog('AppleWalktrough');
             }
@@ -54,7 +54,7 @@ function computerSetup(builder, bot) {
                 `Enter your password and click Join.
                 Remember: If you don’t know your wireless network name or password you can find them on your password card, or on the sticker on the back of your router.`;
 
-            session.send(helpers.createImageCard(session, 'Types of Sockets', '', '', 'https://i.imgur.com/k6XkRzw.png', []));
+            session.send(helpers.createImageCard(session, 'Types of Sockets', '', '', 'https://m1.ttxm.co.uk/gfx/help/turn_wifi_on_mac_3.png', []));
             session.send(text);
             helpers.nextSteps(session);
         },
@@ -67,7 +67,7 @@ function computerSetup(builder, bot) {
                 `You should now be ready to go online on your Mac computer.
                 If you are still unable to connect or you have encountered any other problems, head over to the Apple Mac support site for more detailed help and troubleshooting.`;
 
-            session.endDialog(text);
+            session.beginDialog('EndComputerDialog')
         },
     ]);
 }

@@ -67,8 +67,10 @@ function computerSetup(builder, bot) {
                 Remember: you can find your wireless password on the sticker on the back of your router, or on the card supplied with your router.`;
 
             session.send(helpers.createImageCard(session, 'Wifi guide', '', '', 'http://m3.ttxm.co.uk/sites/rightnow/windows/Windows_10/Enter-password.PNG', []));
-            session.endDialog(text);
-    },
+            session.send(text);
+
+            session.beginDialog('EndComputerDialog')
+        },
     ]);
 }
 
