@@ -37,8 +37,7 @@ function DLink (builder, bot) {
         (session, results) => {
             if(results.response.entity == 'Standard'){
                 session.beginDialog('DisconnectRouter');
-                session.beginDialog('ConnectMicrofilters');
-                session.beginDialog('ConnectStandardSocketRouter');                
+                session.beginDialog('ConnectMicrofilters');            
             } else {
                 session.beginDialog('DisconnectRouter');
                 session.beginDialog('ConnectPreFilteredSocketRouter');
@@ -57,11 +56,26 @@ function DLink (builder, bot) {
 
     bot.dialog('ConnectMicrofilters', [
         (session) => {
+            helpers.nextSteps(session);
+        },
+        (session, results) => {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+
             session.send(helpers.createImageCard(session, 'Connect Microfilters', '', '', 'http://m2.ttxm.co.uk/gfx/help/2316/phone_microfilter_diagram_9052.png', []));
             session.send('Plug your microfilter into your master socket.');
             session.send('If you have a phone, plug the cable into the Phone port on the microfilter.');
             session.send("It's important that you plug a microfilter into every socket you're using in your home. You can buy extra microfilters from the TalkTalk Shop or any electronics shop. ");
             session.send('Never plug microfilters into other microfilters. This will affect your broadband performance');
+
+            helpers.nextSteps(session);
+        },
+        (session, results) => {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+            session.beginDialog('ConnectStandardSocketRouter');   
         }
     ]);
 
@@ -82,6 +96,13 @@ function DLink (builder, bot) {
 
     bot.dialog('ConnectPreFilteredSocketRouter', [
         (session) => {
+            helpers.nextSteps(session);
+        },
+        (session, results) => {
+            if(!helpers.continue(session, results)) {
+                return;
+            }
+
             session.send(helpers.createImageCard(session, 'Connect A Pre-filtered Socket Router', '', '', 'https://m0.ttxm.co.uk/gfx/help/d-link_3782_setup_2.png', []));
             session.send('Connect one end of the grey broadband cable into your master socket.');
             session.send('Connect the other end of the broadband cable into the Broadband port on the back of your router.');
