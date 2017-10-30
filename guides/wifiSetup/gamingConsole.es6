@@ -8,7 +8,7 @@ function computerSetup(builder, bot) {
                 'windows 7',
             ]);
         },
-        (session, results) =>{
+        (session, results) => {
             session.beginDialog(results.response.entity);
         }
     ]);

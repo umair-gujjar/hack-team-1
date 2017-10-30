@@ -35,7 +35,13 @@ function routerSetup (builder, bot) {
     bot.dialog('RouterWalkthrough', [
         (session) => {
             session.send('Okay then lets begin to walk you through setting up your internet.');
-            builder.Prompts.choice(session, 'Which router do you have?', [
+            session.send('Which router do you have?');
+            
+            let text = "The name of the router is on the back as displayed on the example image.";
+            
+            session.send(helpers.createImageCard(session,' ', ' ', '', 'https://i.imgur.com/g2FBbEY.png', []));
+            session.send(text);
+            builder.Prompts.choice(session, ' ', [
                 'D-Link 3782',
                 'HG633',
                 'Non-TalkTalk'
