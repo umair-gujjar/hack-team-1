@@ -10,23 +10,25 @@ function wifiSetup (builder, bot) {
     require('./tabletSetup.es6')(builder, bot);*/
 
     bot.dialog('WifiSetup', [
-        function (session) {
+        (session) => {
             builder.Prompts.choice(session, 'What kind of device you want to connect with wifi?', [
                 'Router',
                 'Computer',
                 'Mobile',
             ]);
         },
-        function (session, results) {
+        (session, results) => {
             session.beginDialog(results.response.entity);
         }
     ]).triggerAction({
         matches: 'WifiSetup'
     });
 
-    bot.dialog('Router', function (session, results) {
-        session.beginDialog('RouterSetup');
-    });
+    bot.dialog('Router', [
+        (session, results) => {
+            session.beginDialog('RouterSetup');
+        }
+    ]);
 }
 
 module.exports = wifiSetup;

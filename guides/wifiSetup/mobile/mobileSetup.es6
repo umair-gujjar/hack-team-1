@@ -6,16 +6,16 @@ function computerSetup(builder, bot) {
     require('./android.es6')(builder, bot);
 
     bot.dialog('Mobile', [
-        function (session) {
+        (session) => {
             builder.Prompts.choice(session, 'What kind of device you want to set up?', [
                 'Apple',
                 'Android',
             ]);
         },
-        function (session, results) {
+        (session, results) => {
             session.beginDialog(results.response.entity);
         },
-        function (session, results) {
+        (session, results) => {
             session.endDialog('Can I help you with anything else?');
         }
     ]);

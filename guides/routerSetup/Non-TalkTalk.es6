@@ -2,8 +2,9 @@ function NonTalkTalk (builder, bot) {
     let helpersConstructor = require('../../common/helpers.es6');
     let helpers = new helpersConstructor(builder);
 
-    bot.dialog('Non-TalkTalk Router', [(session)=>{
-        builder.Prompts.choice(session, 'Just a quick question, are you a TalkTalk TV Customer?', ['Yes', 'No']);
+    bot.dialog('Non-TalkTalk Router', [
+        (session)=>{
+            builder.Prompts.choice(session, 'Just a quick question, are you a TalkTalk TV Customer?', ['Yes', 'No']);
         },
         (session, results) => {
             if(results.response.entity == 'No') {

@@ -21,7 +21,8 @@ function routerSetup (builder, bot) {
         matches: 'RouterSetup'
     });
 
-    bot.dialog('RouterVideo', [(session, results, next) => {
+    bot.dialog('RouterVideo', [
+        (session, results, next) => {
             session.send('Okay, here you go:');
             next();
         },
@@ -31,7 +32,8 @@ function routerSetup (builder, bot) {
         }]
     );
 
-    bot.dialog('RouterWalkthrough', [(session) => {
+    bot.dialog('RouterWalkthrough', [
+        (session) => {
             session.send('Okay then lets begin to walk you through setting up your internet.');
             builder.Prompts.choice(session, 'Which router do you have?', [
                 'D-Link 3782',

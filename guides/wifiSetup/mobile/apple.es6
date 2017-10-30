@@ -3,13 +3,13 @@ function computerSetup(builder, bot) {
     let helpers = new HelpersConstructor(builder);
 
     bot.dialog('Apple', [
-        function (session) {
+        (session) => {
             builder.Prompts.choice(session, 'Would you like to see a video, or do a walkthrough?', [
                 'Walkthrough',
                 'Video',
             ]);
         },
-        function (session, results) {
+        (session, results) => {
             if (results.response.entity == 'Video'){
                 session.send('Okay, here you go:');
                 session.endDialog(helpers.createVideoCard(session, 'Iphone wifi setup', '', 'https://youtu.be/MNwv50GDtGY', []));
@@ -20,7 +20,7 @@ function computerSetup(builder, bot) {
     ]);
 
     bot.dialog('IphoneWalktrough', [
-        function (session) {
+        (session) => {
             session.send('Okay then lets begin the walkthrough!');
 
             let text =
@@ -40,7 +40,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -52,7 +52,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -64,7 +64,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -76,7 +76,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -89,7 +89,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }

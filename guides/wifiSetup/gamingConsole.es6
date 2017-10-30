@@ -1,6 +1,6 @@
 function computerSetup(builder, bot) {
     bot.dialog('Computer', [
-        function (session) {
+        (session) => {
             builder.Prompts.choice(session, 'What kind of device you want to set up?', [
                 'Apple OS',
                 'Windows 10',
@@ -8,7 +8,7 @@ function computerSetup(builder, bot) {
                 'windows 7',
             ]);
         },
-        function (session, results) {
+        (session, results) =>{
             session.beginDialog(results.response.entity);
         }
     ]);

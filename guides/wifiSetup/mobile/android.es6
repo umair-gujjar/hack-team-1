@@ -3,13 +3,13 @@ function computerSetup(builder, bot) {
     let helpers = new HelpersConstructor(builder);
 
     bot.dialog('Android',
-        function (session) {
+        (session) => {
             session.beginDialog('AndroidWalktrough');
         }
     );
 
     bot.dialog('AndroidWalktrough', [
-        function (session) {
+        (session) => {
             session.send('Okay then lets begin the walkthrough!');
 
             let text =
@@ -29,7 +29,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -42,7 +42,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -54,7 +54,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -67,7 +67,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }

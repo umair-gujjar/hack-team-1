@@ -3,13 +3,13 @@ function computerSetup(builder, bot) {
     let helpers = new HelpersConstructor(builder);
 
     bot.dialog('Apple OS', [
-        function (session) {
+        (session) => {
             builder.Prompts.choice(session, 'Would you like to see a video, or do a walkthrough?', [
                 'Walkthrough',
                 'Video',
             ]);
         },
-        function (session, results) {
+        (session, results) => {
             if (results.response.entity == 'Video'){
                 session.send('Okay, here you go:');
                 session.send(helpers.createVideoCard(session, 'Mac wifi setup', '', 'https://youtu.be/AxfGXk0SqCA', []));
@@ -20,7 +20,7 @@ function computerSetup(builder, bot) {
     ]);
 
     bot.dialog('AppleWalktrough', [
-        function (session) {
+        (session) => {
             session.send('Okay then lets begin the walkthrough!');
 
             let text =
@@ -33,7 +33,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -45,7 +45,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
@@ -58,7 +58,7 @@ function computerSetup(builder, bot) {
             session.send(text);
             helpers.nextSteps(session);
         },
-        function (session, results) {
+        (session, results) => {
             if(!helpers.continue(session, results)) {
                 return;
             }
