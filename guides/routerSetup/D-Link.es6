@@ -13,14 +13,14 @@ function DLink (builder, bot) {
         },
         (session, results) => {
             if(results.response.entity == 'Yes') {
-                session.beginDialog('SocketTypeRouter');
+                session.beginDialog('D-Link_SocketTypeRouter');
             } else {
                 session.beginDialog('RouterContactUs');
             }
         }
     ]);
 
-    bot.dialog('SocketTypeRouter', [
+    bot.dialog('D-Link_SocketTypeRouter', [
         (session) => {
             session.send('Find your master socket');
             session.send('Your master socket is the main phone socket in your home - it’s usually a little larger than a normal phone socket and often has a horizontal line in the middle.');
@@ -31,21 +31,21 @@ function DLink (builder, bot) {
             if(!helpers.continue(session, results)) {
                 return;
             }
-            session.send(helpers.createImageCard(session, 'Types of Sockets', '', '', 'https://i.imgur.com/k6XkRzw.png', []));
+            session.send(helpers.createImageCard(session, 'Types of Sockets', '', '', 'https://m0.ttxm.co.uk/gfx/help/standard_prefiltered_socket.png', []));
             builder.Prompts.choice(session, 'What type of socket do you have?', ['Standard','Pre-filtered']);
         },
         (session, results) => {
             if(results.response.entity == 'Standard'){
-                session.beginDialog('DisconnectRouter');
-                session.beginDialog('ConnectMicrofilters');            
+                session.beginDialog('D-Link_DisconnectRouter');
+                session.beginDialog('D-Link_ConnectMicrofilters');            
             } else {
-                session.beginDialog('DisconnectRouter');
-                session.beginDialog('ConnectPreFilteredSocketRouter');
+                session.beginDialog('D-Link_DisconnectRouter');
+                session.beginDialog('D-Link_ConnectPreFilteredSocketRouter');
             }
         }
     ]);
 
-    bot.dialog('DisconnectRouter', [
+    bot.dialog('D-Link_DisconnectRouter', [
         (session) => {
             session.send('Unplug everything from your master socket and all other sockets in your home, including:');
             session.send('Your phone cable');
@@ -54,7 +54,7 @@ function DLink (builder, bot) {
         }
     ]);
 
-    bot.dialog('ConnectMicrofilters', [
+    bot.dialog('D-Link_ConnectMicrofilters', [
         (session) => {
             helpers.nextSteps(session);
         },
@@ -75,11 +75,11 @@ function DLink (builder, bot) {
             if(!helpers.continue(session, results)) {
                 return;
             }
-            session.beginDialog('ConnectStandardSocketRouter');   
+            session.beginDialog('D-Link_ConnectStandardSocketRouter');   
         }
     ]);
 
-    bot.dialog('ConnectStandardSocketRouter', [
+    bot.dialog('D-Link_ConnectStandardSocketRouter', [
         (session) => {
             session.send(helpers.createImageCard(session, 'Connect Router to Standard Socket ', '', '', 'https://m0.ttxm.co.uk/gfx/help/d-link_3782_setup_1.png', []));
             session.send('Connect one end of the grey broadband cable into the ADSL port on your microfilter.');
@@ -90,11 +90,11 @@ function DLink (builder, bot) {
             if(!helpers.continue(session, results)) {
                 return;
             }
-            session.beginDialog('PowerUpRouter');
+            session.beginDialog('D-Link_PowerUpRouter');
         }
     ]);
 
-    bot.dialog('ConnectPreFilteredSocketRouter', [
+    bot.dialog('D-Link_ConnectPreFilteredSocketRouter', [
         (session) => {
             helpers.nextSteps(session);
         },
@@ -113,7 +113,26 @@ function DLink (builder, bot) {
             if(!helpers.continue(session, results)) {
                 return;
             }
-            session.beginDialog('PowerUpRouter');
+            session.beginDialog('D-Link_PowerUpRouter');
+        }
+    ]);
+
+    bot.dialog('D-Link_PowerUpRouter', [
+        (session) => {
+        session.send(helpers.createImageCard(session, 'Power Up Your Router', '', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/power_router_on_dlink_3782.png', []));
+        session.send('Plug in the power supply at the wall and connect the other end to the back of the TalkTalk Router. Turn on the power.');
+        session.send('Press the on/off switch found at the side of the TalkTalk Router.');
+        session.send('Your line is activated when the Power, Broadband and Internet lights go solid green. This can take a few minutes.'); 
+        
+        builder.Prompts.choice(session,'Are there 3 solid green lights?', ['Yes', 'No']);
+        },
+        (session, results) => {
+            if(results.response.entity == 'Yes'){
+                session.send('You are connected!');
+                session.beginDialog('EndRouterSetup');
+            } else {
+                session.beginDialog('RouterContactUs');
+            }
         }
     ]);
 }

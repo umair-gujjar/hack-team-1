@@ -50,25 +50,6 @@ function routerSetup (builder, bot) {
         }]
     );
 
-    bot.dialog('PowerUpRouter', [
-        (session) => {
-        session.send(helpers.createImageCard(session, 'Power Up Your Router', '', '', 'https://m0.ttxm.co.uk/gfx/help/broadband/power_router_on_dlink_3782.png', []));
-        session.send('Plug in the power supply at the wall and connect the other end to the back of the TalkTalk Router. Turn on the power.');
-        session.send('Press the on/off switch found at the side of the TalkTalk Router.');
-        session.send('Your line is activated when the Power, Broadband and Internet lights go solid green. This can take a few minutes.'); 
-        
-        builder.Prompts.choice(session,'Are there 3 solid green lights?', ['Yes', 'No']);
-        },
-        (session, results) => {
-            if(results.response.entity == 'Yes'){
-                session.send('You are connected!');
-                session.beginDialog('EndRouterSetup');
-            } else {
-                session.beginDialog('RouterContactUs');
-            }
-        }
-    ]);
-
     bot.dialog('RouterContactUs', (session) => {
         session.endDialog('Please contact us via: 0345 172 0088');
     });
