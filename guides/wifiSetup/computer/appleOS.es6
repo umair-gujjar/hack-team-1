@@ -28,16 +28,7 @@ function computerSetup(builder, bot) {
                 'Select Turn Wi-Fi On.\n' +
                 'Your Mac will automatically scan for available wireless networks.\n';
 
-            session.send(
-                helpers.createImageCard(
-                    session,
-                    'Wifi guide',
-                    '',
-                    '',
-                    'http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png',
-                    []
-                )
-            );
+            session.send(helpers.createImageCard(session,'Wifi guide','','','http://m3.ttxm.co.uk/gfx/help/broadband/turn_wifi_on_mac.png',[]));
 
             session.send(text);
             helpers.nextSteps(session);
