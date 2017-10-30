@@ -51,7 +51,8 @@ function routerSetup (builder, bot) {
     );
 
     bot.dialog('RouterContactUs', (session) => {
-        session.endDialog('Please contact us via: 0345 172 0088');
+        session.send('Please contact us via: 0345 172 0088');
+        session.beginDialog('EndRouterSetup');
     });
 
     bot.dialog('EndRouterSetup', [
