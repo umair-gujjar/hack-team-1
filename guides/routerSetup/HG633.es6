@@ -29,6 +29,7 @@ function HG633 (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
             session.send(helpers.createImageCard(session, 'Types of Sockets', '', '', 'https://m0.ttxm.co.uk/gfx/help/standard_prefiltered_socket.png', []));
@@ -60,6 +61,7 @@ function HG633 (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
 
@@ -73,6 +75,7 @@ function HG633 (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
             session.beginDialog('HG633_ConnectStandardSocketRouter');   
@@ -88,6 +91,7 @@ function HG633 (builder, bot) {
         }, 
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
             session.beginDialog('HG633_PowerUpRouter');
@@ -100,6 +104,7 @@ function HG633 (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
 
@@ -111,6 +116,7 @@ function HG633 (builder, bot) {
         }, 
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
             session.beginDialog('HG633_PowerUpRouter');

@@ -29,8 +29,10 @@ function DLink (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
-            }
+            } 
+
             session.send(helpers.createImageCard(session, 'Types of Sockets', '', '', 'https://m0.ttxm.co.uk/gfx/help/standard_prefiltered_socket.png', []));
             builder.Prompts.choice(session, 'What type of socket do you have?', ['Standard','Pre-filtered']);
         },
@@ -60,6 +62,7 @@ function DLink (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
 
@@ -73,6 +76,7 @@ function DLink (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
             session.beginDialog('D-Link_ConnectStandardSocketRouter');   
@@ -88,6 +92,7 @@ function DLink (builder, bot) {
         }, 
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
             session.beginDialog('D-Link_PowerUpRouter');
@@ -100,6 +105,7 @@ function DLink (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
 
@@ -111,6 +117,7 @@ function DLink (builder, bot) {
         }, 
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
             session.beginDialog('D-Link_PowerUpRouter');

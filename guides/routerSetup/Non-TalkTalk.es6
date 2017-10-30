@@ -24,6 +24,7 @@ function NonTalkTalk (builder, bot) {
         },
         (session) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
 
@@ -33,6 +34,7 @@ function NonTalkTalk (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
 
@@ -42,6 +44,7 @@ function NonTalkTalk (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
 
@@ -77,6 +80,7 @@ function NonTalkTalk (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
             session.send("Next, you need to enter in the password.  this is the password your router uses to connect to the exchange. If you don't know it, You can call our automated reminder service on 0345 172 0049.");
@@ -85,6 +89,7 @@ function NonTalkTalk (builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndRouterSetup');
                 return;
             }
             session.send('Great, next you will need to enable IGMP Proxy.');

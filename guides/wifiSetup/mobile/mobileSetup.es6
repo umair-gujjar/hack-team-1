@@ -16,9 +16,22 @@ function computerSetup(builder, bot) {
             session.beginDialog(results.response.entity);
         },
         (session, results) => {
-            session.beginDialog('EndRouterSetup');
+            session.beginDialog('EndMobileSetup');
         }
     ]);
+
+    bot.dialog('EndMobileSetup', [
+        (session) => {
+            builder.Prompts.choice(session, 'Is there anything else I can help you with?', ['Yes', 'No']);
+        },
+        (session, results) =>{
+            if(results.response.entity == 'Yes'){
+                session.beginDialog('WifiSetup');
+            } else {
+                session.endDialog('Ok, have a nice day!');
+            }
+        }]
+    );
 }
 
 module.exports = computerSetup;
