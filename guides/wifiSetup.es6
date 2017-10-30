@@ -11,7 +11,7 @@ function wifiSetup (builder, bot) {
 
     bot.dialog('WifiSetup', [
         (session) => {
-            builder.Prompts.choice(session, 'What kind of device you want to connect with wifi?', [
+            builder.Prompts.choice(session, 'What kind of device do you want to connect to the wifi?', [
                 'Router',
                 'Computer',
                 'Mobile',

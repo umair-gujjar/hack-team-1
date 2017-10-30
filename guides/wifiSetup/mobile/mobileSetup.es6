@@ -7,7 +7,7 @@ function computerSetup(builder, bot) {
 
     bot.dialog('Mobile', [
         (session) => {
-            builder.Prompts.choice(session, 'What kind of device you want to set up?', [
+            builder.Prompts.choice(session, 'What kind of device do you want to set up?', [
                 'Apple',
                 'Android',
             ]);
