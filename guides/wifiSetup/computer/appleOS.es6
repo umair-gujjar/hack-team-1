@@ -39,6 +39,12 @@ function computerSetup(builder, bot) {
                 return;
             }
 
+            session.beginDialog('AppleMacWifiName');
+        }
+    ]);
+
+    bot.dialog('AppleMacWifiName', [
+        (session) => {
             let text =
                 'Select your wireless network name from the list.';
 
@@ -52,6 +58,12 @@ function computerSetup(builder, bot) {
                 return;
             }
 
+            session.beginDialog('AppleMacWifiPass');
+        }
+    ]);
+
+    bot.dialog('AppleMacWifiPass', [
+        (session) => {
             let text =
                 `Enter your password and click Join.
                 Remember: If you don’t know your wireless network name or password you can find them on your password card, or on the sticker on the back of your router.`;
@@ -66,13 +78,19 @@ function computerSetup(builder, bot) {
                 return;
             }
 
+            session.beginDialog('');
+        }
+    ]);
+
+    bot.dialog('AppleMacWifiDone', [
+        (session) => {
             let text =
                 `You should now be ready to go online on your Mac computer.
                 If you are still unable to connect or you have encountered any other problems, head over to the Apple Mac support site for more detailed help and troubleshooting.`;
 
             session.beginDialog('EndComputerDialog')
-        },
-    ]);
+        }
+    ])
 }
 
 module.exports = computerSetup;
