@@ -38,9 +38,9 @@ function routerSetup (builder, bot) {
             
             let text = "The name of the router is on the back as displayed on the example image.";
             
-            session.send(helpers.createImageCard(session,' ', ' ', '', 'https://i.imgur.com/g2FBbEY.png', []));
+            session.send(helpers.createImageCard(session,'Which Router', 'Which router do you have?', '', 'https://i.imgur.com/g2FBbEY.png', []));
             session.send(text);
-            
+
             if(session.message.source == 'facebook'){
                 builder.Prompts.choice(session,'Which router do you have?', [
                     'D-Link 3782',
