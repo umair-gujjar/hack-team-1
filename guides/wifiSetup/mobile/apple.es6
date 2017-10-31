@@ -42,6 +42,7 @@ function computerSetup(builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndMobileSetup');
                 return;
             }
 
@@ -54,6 +55,7 @@ function computerSetup(builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndMobileSetup');
                 return;
             }
 
@@ -66,6 +68,7 @@ function computerSetup(builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndMobileSetup');
                 return;
             }
 
@@ -78,6 +81,7 @@ function computerSetup(builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndMobileSetup');
                 return;
             }
 
@@ -91,6 +95,7 @@ function computerSetup(builder, bot) {
         },
         (session, results) => {
             if(!helpers.continue(session, results)) {
+                session.beginDialog('EndMobileSetup');
                 return;
             }
 

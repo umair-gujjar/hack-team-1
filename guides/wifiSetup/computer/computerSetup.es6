@@ -13,7 +13,11 @@ function computerSetup(builder, bot) {
             ]);
         },
         (session, results) => {
-            session.beginDialog(results.response.entity);
+            if(results.response.entity == 'Apple OS'){
+                session.beginDialog('Apple OS');
+            } else {
+                session.beginDialog('Windows 10')
+            }
         },
     ]);
 
