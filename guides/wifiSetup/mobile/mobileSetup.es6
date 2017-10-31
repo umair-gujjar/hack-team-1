@@ -13,10 +13,11 @@ function computerSetup(builder, bot) {
             ]);
         },
         (session, results) => {
-            session.beginDialog(results.response.entity);
-        },
-        (session, results) => {
-            session.beginDialog('EndMobileSetup');
+            if(results.response.entity == 'Apple'){
+                session.beginDialog('Apple');
+            } else {
+                session.beginDialog('Android');
+            }
         }
     ]);
 
@@ -30,8 +31,8 @@ function computerSetup(builder, bot) {
             } else {
                 session.endDialog('Ok, have a nice day!');
             }
-        }]
-    );
+        }
+    ]);
 }
 
 module.exports = computerSetup;
