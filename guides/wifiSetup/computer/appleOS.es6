@@ -78,7 +78,7 @@ function computerSetup(builder, bot) {
                 return;
             }
 
-            session.beginDialog('');
+            session.beginDialog('AppleMacWifiDone');
         }
     ]);
 
@@ -87,7 +87,7 @@ function computerSetup(builder, bot) {
             let text =
                 `You should now be ready to go online on your Mac computer.
                 If you are still unable to connect or you have encountered any other problems, head over to the Apple Mac support site for more detailed help and troubleshooting.`;
-
+            session.send(text);
             session.beginDialog('EndComputerDialog')
         }
     ])
