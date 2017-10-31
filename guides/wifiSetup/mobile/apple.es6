@@ -46,6 +46,12 @@ function computerSetup(builder, bot) {
                 return;
             }
 
+            session.beginDialog('IPhoneWifiNextStep');
+        }
+    ]);
+        
+    bot.dialog('IPhoneWifiNextStep', [
+        (session) => {
             let text =
                 'Now tap Wi-Fi.';
 
@@ -59,6 +65,12 @@ function computerSetup(builder, bot) {
                 return;
             }
 
+            session.beginDialog('IPhoneWifiSwitchedOn');
+        }
+    ]);
+
+    bot.dialog('IPhoneWifiSwitchedOn', [
+        (session) => {
             let text =
                 `Make sure your Wi-Fi is switched ON. Your iPhone will automatically search for available networks.`;
 
@@ -71,7 +83,12 @@ function computerSetup(builder, bot) {
                 session.beginDialog('EndMobileSetup');
                 return;
             }
+            session.beginDialog('IPhoneSelectWifi');
+        }
+    ]);
 
+    bot.dialog('IPhoneSelectWifi', [
+        (session) => {
             let text =
                 `Select your network from the list. If your network is not showing, make sure that wireless is enabled on your router.`;
 
@@ -85,6 +102,12 @@ function computerSetup(builder, bot) {
                 return;
             }
 
+            session.beginDialog('IPhoneEnterPassword');
+        }
+    ]);
+    
+    bot.dialog('IPhoneEnterPassword', [
+        (session) => {
             let text =
                 `Enter your Wireless Network Password (remember this is case sensitive) and tap Join.
                 Remember: You can find your Wireless Network Name and Password on the sticker at the back of your router.`;
@@ -99,11 +122,18 @@ function computerSetup(builder, bot) {
                 return;
             }
 
+            session.beginDialog('IPhoneEnd');
+        }
+    ]);
+
+    bot.dialog('IPhoneEnd', [
+        (session) => {
             let text =
                 `You should now be connected to your wireless network. Try opening your web browser and surfing the web.
 If you’re still having trouble connecting to your wireless network, head over to the Apple support site for more detailed help and troubleshooting.`;
 
-            session.endDialog(text);
+            session.send(text);
+            session.beginDialog('EndMobileSetup');
         },
     ]);
 }
