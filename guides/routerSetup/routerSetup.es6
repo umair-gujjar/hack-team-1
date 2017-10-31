@@ -44,7 +44,7 @@ function routerSetup (builder, bot) {
             builder.Prompts.choice(session, ' ', [
                 'D-Link 3782',
                 'HG633',
-                'Non-TalkTalk'
+                'NonTalkTalk'
             ]);
         },
         (session, results) => {
